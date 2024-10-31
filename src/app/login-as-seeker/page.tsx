@@ -28,7 +28,7 @@ const FormSchema = z.object({
     .string()
 });
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -45,7 +45,7 @@ const page = () => {
   }, [router]);
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState: any) => !prevState);
+    setShowPassword((prevState: boolean) => !prevState);
   };
   
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -73,8 +73,8 @@ const page = () => {
   }
   
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    let email = data.email;
-    let password = data.password;
+    const email = data.email;
+    const password = data.password;
 
     if (password.length < 8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[\W_]/.test(password)) {
       IncorrectCredentials();
@@ -113,6 +113,7 @@ const page = () => {
         }
       })
       .catch((err) => {
+        console.log(err);
         return;
       });
 
@@ -194,4 +195,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

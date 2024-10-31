@@ -31,7 +31,7 @@ const Navbar = () => {
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
   const [id, setId] = useState("");
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
   useEffect(() => {
@@ -65,6 +65,7 @@ const Navbar = () => {
       }
     } catch (error) {
       console.error("An error occurred during logout:", error);
+      console.error("Token:", isDecodedToken);
     }
     setIsLoginRegister(false);
   };

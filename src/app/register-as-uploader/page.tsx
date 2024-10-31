@@ -61,7 +61,7 @@ const FormSchema = z
     path: ["c_password"],
   });
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -77,10 +77,10 @@ const page = () => {
   }, [router])
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState: any) => !prevState);
+    setShowPassword((prevState: boolean) => !prevState);
   };
   const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prevState: any) => !prevState);
+    setShowConfirmPassword((prevState: boolean) => !prevState);
   };
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -101,8 +101,8 @@ const page = () => {
     form.reset();
   }
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
+  const UnexpectedError = (error: string) => {
+    toast.error(`An unexpected error occurred. ${error}`, {
       draggable: true,
       theme: "colored",
     });
@@ -130,7 +130,7 @@ const page = () => {
   
       router.push("/login-as-uploader");
     } catch (error) {
-      UnexpectedError();
+      UnexpectedError(error as string);
       return;
     }
     
@@ -285,4 +285,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

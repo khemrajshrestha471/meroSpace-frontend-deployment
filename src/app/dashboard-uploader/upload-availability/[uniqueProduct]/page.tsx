@@ -49,7 +49,7 @@ interface DecodedToken {
   userId: string;
 }
 
-const page = () => {
+const Page = () => {
   const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
@@ -59,7 +59,7 @@ const page = () => {
   const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
-  const [currentPath, setCurrentPath] = useState("");
+  // const [currentPath, setCurrentPath] = useState("");
   const searchParams = useSearchParams();
   const [changeThumbnailImage, setChangeThumbnailImage] = useState(false);
   const [changeAdditionalImages, setChangeAdditionalImages] = useState(false);
@@ -77,7 +77,7 @@ const page = () => {
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
     }
-    setCurrentPath(pathname.split("/").slice(-1)[0])
+    // setCurrentPath(pathname.split("/").slice(-1)[0])
   }, []);
   const router = useRouter();
 
@@ -130,13 +130,13 @@ const page = () => {
             const result = await response.json();
             setData(result);
           } catch (error) {
-            console.error("Error fetching data:", error);
+            UnexpectedError(error as string);
           }
         };
 
         fetchData();
       } catch (error) {
-        console.error("Error decoding token:", error);
+        UnexpectedError(error as string);
         // In case of an invalid token, redirect to login
         router.push("/login-as-uploader");
       }
@@ -189,7 +189,13 @@ const page = () => {
     });
   }
 
-  const UnexpectedError = () => {
+  const UnexpectedError = (error:string) => {
+    toast.error(`An unexpected error occurred. ${error}`, {
+      draggable: true,
+      theme: "colored",
+    });
+  }
+  const UnexpectedErrorNoParameter = () => {
     toast.error("An unexpected error occurred. Please try again.", {
       draggable: true,
       theme: "colored",
@@ -241,11 +247,11 @@ const page = () => {
         } else if (response.status === 400) {
           LimitExceed(limit);
         } else {
-          UnexpectedError();
+          UnexpectedErrorNoParameter();
         }
       })
-      .catch((err) => {
-        UnexpectedError();
+      .catch((error) => {
+        UnexpectedError(error as string);
       });
     form.reset();
     if (imageInputRef.current) {
@@ -277,11 +283,11 @@ const page = () => {
         await response.json();
         window.location.reload();
       } else {
-        const errorData = await response.json();
+        await response.json();
         FailedDeleteImage();
       }
     } catch (error) {
-      UnexpectedError();
+      UnexpectedError(error as string);
     }
   };
 
@@ -306,7 +312,7 @@ const page = () => {
         FailedDeleteProduct();
       }
     } catch (error) {
-      UnexpectedError();
+      UnexpectedError(error as string);
     }
   };
 
@@ -571,4 +577,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

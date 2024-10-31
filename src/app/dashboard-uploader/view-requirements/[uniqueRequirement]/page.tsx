@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,7 @@ const Page = () => {
   const [isBookNowButton, setIsBookNowButton] = useState(true);
   const router = useRouter();
   const [expiryTime, setExpiryTime] = useState(0);
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
 
@@ -95,6 +95,7 @@ const Page = () => {
     fetchData();
   } catch (error) {
     console.error("Error decoding token:", error);
+    console.error("Token:", isDecodedToken);
     // In case of an invalid token, redirect to login
     router.push("/login-as-uploader");
   }
@@ -130,7 +131,7 @@ const Page = () => {
     <div>
       {data.map((item) => {
         return (
-          <div className="p-3 clearfix">
+          <div key={item.unique_id} className="p-3 clearfix">
             <h2 className="text-center">{item.headline}</h2>
             <p className="text-center">{item.description}</p>
             <p className="text-center font-bold">Tentative Price: {item.tentative_price}</p>

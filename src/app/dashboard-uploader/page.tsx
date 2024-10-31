@@ -23,7 +23,6 @@ import {
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -38,10 +37,10 @@ type UploaderData = {
   imageUrl: string;
 };
 
-const page = () => {
+const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
   const [data, setData] = useState<UploaderData[]>([]);
@@ -121,6 +120,7 @@ const page = () => {
         fetchData();
       } catch (error) {
         console.error("Error decoding token:", error);
+        console.error("Token:", isDecodedToken);
         // In case of an invalid token, redirect to login
         router.push("/login-as-uploader");
       }
@@ -287,4 +287,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ interface DecodedToken {
   userId: string;
 }
 
-const page = () => {
+const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
@@ -273,4 +273,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

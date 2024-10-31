@@ -45,7 +45,7 @@ interface DecodedToken {
 }
 
 const Page = () => {
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   const [isUserIdJwt, setIsUserIdJwt] = useState("");

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,7 +44,7 @@ interface DecodedToken {
   userId: string;
 }
 
-const page = () => {
+const Page = () => {
   const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
@@ -53,7 +53,7 @@ const page = () => {
   const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
-  const [currentPath, setCurrentPath] = useState("");
+  // const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
     const isFirstRender = localStorage.getItem("firstRender");
@@ -64,7 +64,7 @@ const page = () => {
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
     }
-    setCurrentPath(pathname.split("/").slice(-1)[0]);
+    // setCurrentPath(pathname.split("/").slice(-1)[0]);
   }, []);
   const router = useRouter();
 
@@ -200,7 +200,8 @@ const page = () => {
     router.push("/login-as-uploader");
   }
 
-  function onSubmit(data: z.infer<typeof FormSchema>, item: UploaderData) {
+  // function onSubmit(data: z.infer<typeof FormSchema>, item: UploaderData) {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
     fetch(`https://mero-space-backend-deployment.vercel.app/uploader-profile-modified/${isUserIdJwt}`, {
       method: "PATCH",
       credentials: "include",
@@ -258,7 +259,8 @@ const page = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  form.handleSubmit((data) => onSubmit(data, item))(e);
+                  // form.handleSubmit((data) => onSubmit(data, item))(e);
+                  form.handleSubmit((data) => onSubmit(data))(e);
                 }}
                 className="w-2/3 space-y-6"
               >
@@ -395,4 +397,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

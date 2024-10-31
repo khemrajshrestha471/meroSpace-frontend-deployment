@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 
 import { zodResolver } from "@hookform/resolvers/zod";

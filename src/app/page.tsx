@@ -14,7 +14,6 @@ import {
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -46,7 +45,7 @@ export default function Home() {
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
   const [id, setId] = useState("");
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
 
@@ -90,6 +89,7 @@ export default function Home() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        console.error("Token:", isDecodedToken);
         setLoading(false);
       }
     };

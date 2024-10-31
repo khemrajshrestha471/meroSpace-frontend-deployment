@@ -61,7 +61,7 @@ const FormSchema = z
     path: ["c_password"],
   });
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -74,8 +74,8 @@ const page = () => {
     form.reset();
   }
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
+  const UnexpectedError = (error:string) => {
+    toast.error(`An unexpected error occurred. ${error}`, {
       draggable: true,
       theme: "colored",
     });
@@ -93,10 +93,10 @@ const page = () => {
   }, [router])
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState: any) => !prevState);
+    setShowPassword((prevState: boolean) => !prevState);
   };
   const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prevState: any) => !prevState);
+    setShowConfirmPassword((prevState: boolean) => !prevState);
   };
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -109,10 +109,10 @@ const page = () => {
     },
   });
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    let username = data.username;
-    let email = data.email;
-    let p_number = data.p_number;
-    let password = data.password;
+    const username = data.username;
+    const email = data.email;
+    const p_number = data.p_number;
+    const password = data.password;
 
     try {
         const response = await fetch("https://mero-space-backend-deployment.vercel.app/register-as-seeker", {
@@ -139,7 +139,7 @@ const page = () => {
         // Redirect after successful registration
         router.push("/login-as-seeker");
     } catch (error) {
-      UnexpectedError();
+      UnexpectedError(error as string);
     } finally {
         form.reset();
     }
@@ -294,4 +294,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

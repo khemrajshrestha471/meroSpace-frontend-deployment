@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Image from "next/image";
 
 type UploaderData = {
   id: string;
@@ -44,8 +43,8 @@ const Page = () => {
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
   const [role, setRole] = useState("");
 
-  const UnexpectedError = (error:any) => {
-    toast.error("An unexpected error occurred. Please try again.", {
+  const UnexpectedError = (error:string) => {
+    toast.error(`An unexpected error occurred. ${error}`, {
       draggable: true,
       theme: "colored",
     });
@@ -66,7 +65,7 @@ const Page = () => {
         const result = await response.json();
         setData(result);
       } catch (error) {
-        UnexpectedError(error);
+        UnexpectedError(error as string);
       }
     };
 
@@ -88,7 +87,7 @@ const Page = () => {
         const result = await response.json();
         setContactNumber(result.p_number);
       } catch (error) {
-        UnexpectedError(error);
+        UnexpectedError(error as string);
       }
     } else {
       toast.error(

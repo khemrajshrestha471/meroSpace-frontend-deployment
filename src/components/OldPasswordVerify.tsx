@@ -21,7 +21,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
@@ -34,8 +33,8 @@ const OldPasswordVerify = () => {
   const [showNewPasswordField, setShowNewPasswordField] = useState(false);
   const [isUserIdJwt, setIsUserIdJwt] = useState("");
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
+  const UnexpectedError = (error: string) => {
+    toast.error(`An unexpected error occurred. ${error}`, {
       draggable: true,
       theme: "colored",
       position: "top-center",
@@ -61,7 +60,7 @@ const OldPasswordVerify = () => {
   }, [isUserIdJwt]);
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState: any) => !prevState);
+    setShowPassword((prevState: boolean) => !prevState);
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -72,7 +71,7 @@ const OldPasswordVerify = () => {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    let previous_password = data.previous_password;
+    const previous_password = data.previous_password;
 
     if (
       previous_password.length < 8 ||
@@ -103,8 +102,8 @@ const OldPasswordVerify = () => {
           return;
         }
       })
-      .catch((err) => {
-        UnexpectedError();
+      .catch((error) => {
+        UnexpectedError(error as string);
       });
 
     form.reset();
