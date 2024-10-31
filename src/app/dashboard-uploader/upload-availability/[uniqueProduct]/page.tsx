@@ -50,7 +50,7 @@ interface DecodedToken {
 }
 
 const Page = () => {
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
@@ -308,7 +308,7 @@ const Page = () => {
         );
         await response.json();
       } else {
-        const errorData = await response.json();
+        await response.json();
         FailedDeleteProduct();
       }
     } catch (error) {
