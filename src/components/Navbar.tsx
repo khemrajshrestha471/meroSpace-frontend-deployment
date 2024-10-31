@@ -63,6 +63,7 @@ const Navbar = () => {
       if (response.ok) {
         localStorage.removeItem("token");
         router.push("/");
+        window.location.reload();
       } else {
         console.error("Logout failed");
       }
