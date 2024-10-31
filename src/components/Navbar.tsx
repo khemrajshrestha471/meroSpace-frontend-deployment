@@ -1,7 +1,6 @@
 "use client";
 
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 import { ImUpload } from "react-icons/im";
 import { TbMapSearch } from "react-icons/tb";
@@ -34,6 +34,9 @@ const Navbar = () => {
   const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
+  const [isLoginDropdownOpen, setIsLoginDropdownOpen] = useState(false);
+  const [isRegisterDropdownOpen, setIsRegisterDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -52,7 +55,7 @@ const Navbar = () => {
 
   const handleLogOut = async () => {
     try {
-      const response = await fetch("https://mero-space-backend-deployment.vercel.app/logout", {
+      const response = await fetch("http://localhost:4000/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -68,6 +71,10 @@ const Navbar = () => {
       console.error("Token:", isDecodedToken);
     }
     setIsLoginRegister(false);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   return (
@@ -94,18 +101,10 @@ const Navbar = () => {
             </a>
           )}
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
+<button className="navbar-toggler" type="button" onClick={toggleMenu}>
+            {isMenuOpen ? <FaTimes /> : <FaBars />} {/* Toggle between hamburger and close icon */}
           </button>
-          <div className="navbar-collapse" id="navbarSupportedContent">
+          <div className={`navbar-collapse ${isMenuOpen ? "block" : "hidden"} lg:flex`} id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 {role === "uploader" ? (
@@ -124,7 +123,9 @@ const Navbar = () => {
                 ) : role === "seeker" ? (
                   <a
                     className={`nav-link ${
-                      pathname.startsWith(`/dashboard-seeker/upload-requirement`)
+                      pathname.startsWith(
+                        `/dashboard-seeker/upload-requirement`
+                      )
                         ? "active"
                         : ""
                     }`}
@@ -160,13 +161,24 @@ const Navbar = () => {
               </li>
             </ul>
 
+            <div className="flex space-x-4 items-center">
             {!isLoginRegister ? (
-              <div className="flex space-x-4">
-                <DropdownMenu>
+              <>
+                <DropdownMenu open={isLoginDropdownOpen}>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline">Login</Button>
+                    <Button
+                      variant="outline"
+                      onMouseEnter={() => setIsLoginDropdownOpen(true)}
+                      onMouseLeave={() => setIsLoginDropdownOpen(false)}
+                    >
+                      Login
+                    </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-46">
+                  <DropdownMenuContent
+                    className="w-46"
+                    onMouseEnter={() => setIsLoginDropdownOpen(true)}
+                    onMouseLeave={() => setIsLoginDropdownOpen(false)}
+                  >
                     <DropdownMenuGroup>
                       <Link
                         href="/login-as-uploader"
@@ -195,11 +207,21 @@ const Navbar = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <DropdownMenu>
+                <DropdownMenu open={isRegisterDropdownOpen}>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline">Register</Button>
+                    <Button
+                      variant="outline"
+                      onMouseEnter={() => setIsRegisterDropdownOpen(true)}
+                      onMouseLeave={() => setIsRegisterDropdownOpen(false)}
+                    >
+                      Register
+                    </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-46">
+                  <DropdownMenuContent
+                    className="w-46"
+                    onMouseEnter={() => setIsRegisterDropdownOpen(true)}
+                    onMouseLeave={() => setIsRegisterDropdownOpen(false)}
+                  >
                     <DropdownMenuGroup>
                       <Link
                         href="/register-as-uploader"
@@ -228,9 +250,9 @@ const Navbar = () => {
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </div>
+              </>
             ) : (
-              <div className="flex space-x-4 items-center">
+              <>
                 {role === "uploader" ? (
                   <Link
                     href={`/dashboard-uploader/profile?username=${username}&role=${role}&Id=${id}`}
@@ -252,9 +274,10 @@ const Navbar = () => {
                 <Button variant="outline" onClick={handleLogOut}>
                   Logout
                 </Button>
-              </div>
+              </>
             )}
           </div>
+        </div>
         </div>
       </nav>
     </>
