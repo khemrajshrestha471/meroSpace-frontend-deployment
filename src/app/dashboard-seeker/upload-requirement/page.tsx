@@ -50,14 +50,12 @@ interface DecodedToken {
   userId: string;
 }
 
-const page = () => {
+const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-  const imageInputRef = useRef<HTMLInputElement | null>(null);
-  const imageInputRefMultiple = useRef<HTMLInputElement | null>(null);
   const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
@@ -175,7 +173,8 @@ const page = () => {
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    let unique_id = Array(24)
+    // let unique_id = Array(24)
+    const unique_id = Array(24)
       .fill(0)
       .map(() => Math.random().toString(36).charAt(2))
       .join("");
@@ -423,4 +422,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

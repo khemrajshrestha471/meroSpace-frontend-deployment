@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import Autoplay from "embla-carousel-autoplay";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { decodeToken } from "@/components/utils/decodeToken";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -25,6 +24,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Image from "next/image";
 
 type UploaderData = {
   id: string;
@@ -36,7 +36,7 @@ type UploaderData = {
   imageUrls: string[];
 };
 
-const page = () => {
+const Page = () => {
   const [data, setData] = useState<UploaderData[]>([]);
   const [contactNumber, setContactNumber] = useState("");
   const searchParams = useSearchParams();
@@ -44,7 +44,7 @@ const page = () => {
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: true }));
   const [role, setRole] = useState("");
 
-  const UnexpectedError = () => {
+  const UnexpectedError = (error:any) => {
     toast.error("An unexpected error occurred. Please try again.", {
       draggable: true,
       theme: "colored",
@@ -66,7 +66,7 @@ const page = () => {
         const result = await response.json();
         setData(result);
       } catch (error) {
-        UnexpectedError();
+        UnexpectedError(error);
       }
     };
 
@@ -88,11 +88,11 @@ const page = () => {
         const result = await response.json();
         setContactNumber(result.p_number);
       } catch (error) {
-        UnexpectedError();
+        UnexpectedError(error);
       }
     } else {
       toast.error(
-        "Error! You have to log in as seeker in order to book the room.",
+        "Error! You need to log in to book the room.",
         {
           draggable: true,
           theme: "colored",
@@ -107,7 +107,7 @@ const page = () => {
       {data.map((item) => {
         const combinedImageUrls = [item.imageUrl, ...item.imageUrls];
         return (
-          <div className="p-3 clearfix">
+          <div key={item.id} className="p-3 clearfix">
             <Carousel
               key={item.unique_id}
               plugins={[plugin.current]}
@@ -183,4 +183,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,7 +46,7 @@ interface DecodedToken {
   userId: string;
 }
 
-const page = () => {
+const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
@@ -182,11 +182,8 @@ const page = () => {
     },
   });
 
-  const handleClear = () => {
-    form.reset();
-  };
-
-  function onSubmit(data: z.infer<typeof FormSchema>, item: UploaderData) {
+  // function onSubmit(data: z.infer<typeof FormSchema>, item: UploaderData) {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
 
     fetch(`https://mero-space-backend-deployment.vercel.app/uploader-requirement-modified/${Pid}`, {
       method: "PATCH",
@@ -247,7 +244,8 @@ const page = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                form.handleSubmit((data) => onSubmit(data, item))(e);
+                // form.handleSubmit((data) => onSubmit(data, item))(e);
+                form.handleSubmit((data) => onSubmit(data))(e);
               }}
               className="w-2/3 space-y-6"
             >
@@ -368,4 +366,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
