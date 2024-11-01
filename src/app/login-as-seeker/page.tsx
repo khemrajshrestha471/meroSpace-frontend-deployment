@@ -35,7 +35,7 @@ const FormSchema = z.object({
   password: z.string(),
 });
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -81,8 +81,8 @@ const page = () => {
   };
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    let email = data.email;
-    let password = data.password;
+    const email = data.email;
+    const password = data.password;
 
     if (
       password.length < 8 ||
@@ -226,4 +226,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
