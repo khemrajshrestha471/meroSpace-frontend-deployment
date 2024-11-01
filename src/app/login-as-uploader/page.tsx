@@ -5,11 +5,20 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
 import { decodeToken } from "@/components/utils/decodeToken.js";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Button } from "@/components/ui/button";
+import OldCredentialsVerify from "@/components/OldCredentialsVerify"
+
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   Form,
   FormControl,
@@ -24,14 +33,12 @@ import { useRouter } from "next/navigation";
 const FormSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
 
-  password: z
-    .string()
+  password: z.string(),
 });
 
-const Page = () => {
+const page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-
 
   useEffect(() => {
     // Check if token exists in localStorage
@@ -40,14 +47,16 @@ const Page = () => {
       localStorage.setItem("firstRender", "true");
       // Redirect to dashboard if token exists
       const decodedToken = decodeToken(token);
-      router.push(`/dashboard-uploader?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`);
+      router.push(
+        `/dashboard-uploader?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+      );
     }
   }, [router]);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState: boolean) => !prevState);
   };
-  
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -62,7 +71,7 @@ const Page = () => {
       theme: "colored",
     });
     form.reset();
-  }
+  };
 
   const UnexpectedError = () => {
     toast.error("An unexpected error occurred. Please try again.", {
@@ -70,13 +79,19 @@ const Page = () => {
       theme: "colored",
     });
     form.reset();
-  }
-  
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    const email = data.email;
-    const password = data.password;
+  };
 
-    if (password.length < 8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password) || !/[\W_]/.test(password)) {
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    let email = data.email;
+    let password = data.password;
+
+    if (
+      password.length < 8 ||
+      !/[a-z]/.test(password) ||
+      !/[A-Z]/.test(password) ||
+      !/[0-9]/.test(password) ||
+      !/[\W_]/.test(password)
+    ) {
       IncorrectCredentials();
       return;
     }
@@ -106,13 +121,18 @@ const Page = () => {
           localStorage.setItem("token", data.token);
           localStorage.setItem("firstRender", "true");
           const decodedToken = decodeToken(data.token);
-          router.push(`/dashboard-uploader?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`);
+          router.push(
+            `/dashboard-uploader?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+          );
         } else {
           UnexpectedError();
+          // alert("No");
           return;
         }
       })
       .catch((err) => {
+        // UnexpectedError();
+        // alert("Yes")
         console.error(err);
         return;
       });
@@ -181,6 +201,21 @@ const Page = () => {
               )}
             />
 
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button className="border-none p-0 mt-2 text-blue-800">
+                  Forgot Password?
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    <OldCredentialsVerify />
+                  </AlertDialogTitle>
+                </AlertDialogHeader>
+              </AlertDialogContent>
+            </AlertDialog>
+
             <div className="flex space-x-4">
               <Button type="submit">Login</Button>
               <ToastContainer />
@@ -195,4 +230,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default page;
