@@ -17,6 +17,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import { ImUpload } from "react-icons/im";
 import { TbMapSearch } from "react-icons/tb";
 import { decodeToken } from "@/components/utils/decodeToken.js";
+import Image from "next/image";
 
 interface DecodedToken {
   username: string;
@@ -84,28 +85,55 @@ const Navbar = () => {
         <div className="container-fluid">
           {role === "uploader" ? (
             <a
-              className="navbar-brand"
+              className="navbar-brand flex items-center"
               href={`/dashboard-uploader?username=${username}&role=${role}&Id=${id}`}
             >
+              <Image
+                src="/assets/images/logo.png"
+                width={35}
+                height={35}
+                alt="meroSpace's logo"
+                unoptimized
+              />
               meroSpace
             </a>
           ) : role === "seeker" ? (
             <a
-              className="navbar-brand"
+              className="navbar-brand flex items-center"
               href={`/dashboard-seeker?username=${username}&role=${role}&Id=${id}`}
             >
+              <Image
+                src="/assets/images/logo.png"
+                width={35}
+                height={35}
+                alt="meroSpace's logo"
+                unoptimized
+              />
               meroSpace
             </a>
           ) : (
-            <a className="navbar-brand" href="/">
+            <a className="navbar-brand flex items-center" href="/">
+              <Image
+                src="/assets/images/logo.png"
+                width={35}
+                height={35}
+                alt="meroSpace's logo"
+                unoptimized
+              />
               meroSpace
             </a>
           )}
 
-<button className="navbar-toggler" type="button" onClick={toggleMenu}>
-            {isMenuOpen ? <FaTimes /> : <FaBars />} {/* Toggle between hamburger and close icon */}
+          <button className="navbar-toggler" type="button" onClick={toggleMenu}>
+            {isMenuOpen ? <FaTimes /> : <FaBars />}{" "}
+            {/* Toggle between hamburger and close icon */}
           </button>
-          <div className={`navbar-collapse ${isMenuOpen ? "block" : "hidden"} lg:flex`} id="navbarSupportedContent">
+          <div
+            className={`navbar-collapse ${
+              isMenuOpen ? "block" : "hidden"
+            } lg:flex`}
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 {role === "uploader" ? (
@@ -163,122 +191,122 @@ const Navbar = () => {
             </ul>
 
             <div className="flex space-x-4 items-center">
-            {!isLoginRegister ? (
-              <>
-                <DropdownMenu open={isLoginDropdownOpen}>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="outline"
+              {!isLoginRegister ? (
+                <>
+                  <DropdownMenu open={isLoginDropdownOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        onMouseEnter={() => setIsLoginDropdownOpen(true)}
+                        onMouseLeave={() => setIsLoginDropdownOpen(false)}
+                      >
+                        Login
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      className="w-46"
                       onMouseEnter={() => setIsLoginDropdownOpen(true)}
                       onMouseLeave={() => setIsLoginDropdownOpen(false)}
                     >
-                      Login
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    className="w-46"
-                    onMouseEnter={() => setIsLoginDropdownOpen(true)}
-                    onMouseLeave={() => setIsLoginDropdownOpen(false)}
-                  >
-                    <DropdownMenuGroup>
-                      <Link
-                        href="/login-as-uploader"
-                        className="no-underline text-black"
-                      >
-                        <DropdownMenuItem>
-                          <ImUpload className="mr-2 h-4 w-4" />
-                          <span className="cursor-pointer">
-                            Login as Uploader
-                          </span>
-                        </DropdownMenuItem>
-                      </Link>
-                      <Link
-                        href="/login-as-seeker"
-                        className="no-underline text-black"
-                      >
-                        <DropdownMenuItem>
-                          <TbMapSearch className="mr-2 h-4 w-4" />
+                      <DropdownMenuGroup>
+                        <Link
+                          href="/login-as-uploader"
+                          className="no-underline text-black"
+                        >
+                          <DropdownMenuItem>
+                            <ImUpload className="mr-2 h-4 w-4" />
+                            <span className="cursor-pointer">
+                              Login as Uploader
+                            </span>
+                          </DropdownMenuItem>
+                        </Link>
+                        <Link
+                          href="/login-as-seeker"
+                          className="no-underline text-black"
+                        >
+                          <DropdownMenuItem>
+                            <TbMapSearch className="mr-2 h-4 w-4" />
 
-                          <span className="cursor-pointer">
-                            Login as Seeker
-                          </span>
-                        </DropdownMenuItem>
-                      </Link>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                            <span className="cursor-pointer">
+                              Login as Seeker
+                            </span>
+                          </DropdownMenuItem>
+                        </Link>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
 
-                <DropdownMenu open={isRegisterDropdownOpen}>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="outline"
+                  <DropdownMenu open={isRegisterDropdownOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        onMouseEnter={() => setIsRegisterDropdownOpen(true)}
+                        onMouseLeave={() => setIsRegisterDropdownOpen(false)}
+                      >
+                        Register
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      className="w-46"
                       onMouseEnter={() => setIsRegisterDropdownOpen(true)}
                       onMouseLeave={() => setIsRegisterDropdownOpen(false)}
                     >
-                      Register
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    className="w-46"
-                    onMouseEnter={() => setIsRegisterDropdownOpen(true)}
-                    onMouseLeave={() => setIsRegisterDropdownOpen(false)}
-                  >
-                    <DropdownMenuGroup>
-                      <Link
-                        href="/register-as-uploader"
-                        className="no-underline text-black"
-                      >
-                        <DropdownMenuItem>
-                          <ImUpload className="mr-2 h-4 w-4" />
+                      <DropdownMenuGroup>
+                        <Link
+                          href="/register-as-uploader"
+                          className="no-underline text-black"
+                        >
+                          <DropdownMenuItem>
+                            <ImUpload className="mr-2 h-4 w-4" />
 
-                          <span className="cursor-pointer">
-                            Register as Uploader
-                          </span>
-                        </DropdownMenuItem>
-                      </Link>
-                      <Link
-                        href="/register-as-seeker"
-                        className="no-underline text-black"
-                      >
-                        <DropdownMenuItem>
-                          <TbMapSearch className="mr-2 h-4 w-4" />
+                            <span className="cursor-pointer">
+                              Register as Uploader
+                            </span>
+                          </DropdownMenuItem>
+                        </Link>
+                        <Link
+                          href="/register-as-seeker"
+                          className="no-underline text-black"
+                        >
+                          <DropdownMenuItem>
+                            <TbMapSearch className="mr-2 h-4 w-4" />
 
-                          <span className="cursor-pointer">
-                            Register as Seeker
-                          </span>
-                        </DropdownMenuItem>
-                      </Link>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            ) : (
-              <>
-                {role === "uploader" ? (
-                  <Link
-                    href={`/dashboard-uploader/profile?username=${username}&role=${role}&Id=${id}`}
-                    className="text-white no-underline"
-                  >
-                    {username || "Loading..."}
-                  </Link>
-                ) : role === "seeker" ? (
-                  <Link
-                    href={`/dashboard-seeker/profile?username=${username}&role=${role}&Id=${id}`}
-                    className="text-white no-underline"
-                  >
-                    {username || "Loading..."}
-                  </Link>
-                ) : (
-                  <></>
-                )}
+                            <span className="cursor-pointer">
+                              Register as Seeker
+                            </span>
+                          </DropdownMenuItem>
+                        </Link>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </>
+              ) : (
+                <>
+                  {role === "uploader" ? (
+                    <Link
+                      href={`/dashboard-uploader/profile?username=${username}&role=${role}&Id=${id}`}
+                      className="text-white no-underline"
+                    >
+                      {username || "Loading..."}
+                    </Link>
+                  ) : role === "seeker" ? (
+                    <Link
+                      href={`/dashboard-seeker/profile?username=${username}&role=${role}&Id=${id}`}
+                      className="text-white no-underline"
+                    >
+                      {username || "Loading..."}
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
 
-                <Button variant="outline" onClick={handleLogOut}>
-                  Logout
-                </Button>
-              </>
-            )}
+                  <Button variant="outline" onClick={handleLogOut}>
+                    Logout
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
         </div>
       </nav>
     </>
