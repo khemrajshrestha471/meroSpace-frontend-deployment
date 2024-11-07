@@ -49,7 +49,7 @@ const SearchProductPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:4000/search-product", {
+        const response = await fetch("https://mero-space-backend-deployment.vercel.app/search-product", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
