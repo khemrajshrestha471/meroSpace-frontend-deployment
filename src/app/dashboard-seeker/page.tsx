@@ -27,6 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import LandingPage from "@/components/landingPage/LandingPage";
 
 type UploaderData = {
   id: string;
@@ -154,6 +155,7 @@ const Page = () => {
 
   return (
     <>
+    <LandingPage />
       <div className="p-4 w-full overflow-hidden">
         <ul className="flex flex-wrap justify-start gap-4">
           {currentItems.map((item) => (
