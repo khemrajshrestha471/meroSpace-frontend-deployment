@@ -32,6 +32,7 @@ type UploaderData = {
   unique_id: string;
   headline: string;
   description: string;
+  location: string;
   price: number;
   imageUrl: string;
 };
@@ -136,7 +137,7 @@ export default function Home() {
                   </CardDescription>
                   <div className="flex justify-between items-center pl-1">
                     <CardDescription className="truncate font-bold">
-                      Cost: {item.price}
+                    Location: {item.location}
                     </CardDescription>
                     <Link href={`/Unique-Product?Pid=${item.unique_id}`}>
                       <Button className="ml-2">Explore</Button>

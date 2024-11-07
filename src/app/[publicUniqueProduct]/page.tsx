@@ -30,6 +30,8 @@ type UploaderData = {
   unique_id: string;
   headline: string;
   description: string;
+  property: string;
+  location: string;
   price: string;
   imageUrl: string;
   imageUrls: string[];
@@ -133,7 +135,9 @@ const Page = () => {
             </Carousel>
             <h2 className="text-center">{item.headline}</h2>
             <p className="text-center">{item.description}</p>
-            <p className="text-center font-bold">Cost: {item.price}</p>
+            <p className="text-center">Property Type: <span className="font-bold">{item.property}</span></p>
+            <p className="text-center">Location: <span className="font-bold">{item.location}</span></p>
+            <p className="text-center font-bold">Cost / month (Rs.): {item.price}</p>
             <div>
               {role === "seeker" ? (
                 <AlertDialog>

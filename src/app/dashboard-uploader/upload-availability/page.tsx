@@ -5,11 +5,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 
 import { Button } from "@/components/ui/button";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Card,
   CardDescription,
@@ -26,6 +28,14 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Form,
   FormControl,
   FormField,
@@ -41,6 +51,8 @@ type UploaderData = {
   unique_id: string;
   headline: string;
   description: string;
+  property: string;
+  location: string;
   price: number;
   imageUrl: string;
 };
@@ -158,6 +170,8 @@ const Page = () => {
   const FormSchema = z.object({
     headline: z.string().min(1, "Headline is required"),
     description: z.string().min(1, "Description is required"),
+    property: z.string().min(1, "Property Type is required"),
+    location: z.string().min(1, "Location is required"),
     price: z.string().min(1, "Price is required"),
     image: z.instanceof(File, { message: "Thumbnail Image is required" }),
     images: z
@@ -171,6 +185,8 @@ const Page = () => {
     defaultValues: {
       headline: "",
       description: "",
+      property: "",
+      location: "",
       price: "",
       image: undefined,
       images: [],
@@ -198,6 +214,13 @@ const Page = () => {
   
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (isNaN(Number(data.price))) {
+      toast.error("Price should be in Number.", {
+        draggable: true,
+        theme: "colored",
+      });
+      return;
+    }
     const unique_id = Array(24)
       .fill(0)
       .map(() => Math.random().toString(36).charAt(2))
@@ -209,6 +232,8 @@ const Page = () => {
     formData.append("unique_id", unique_id);
     formData.append("headline", data.headline);
     formData.append("description", data.description);
+    formData.append("property", data.property);
+    formData.append("location", data.location);
     formData.append("price", data.price);
     formData.append("image", data.image);
 
@@ -317,12 +342,88 @@ const Page = () => {
               )}
             />
 
+<FormField
+              control={form.control}
+              name="property"
+              render={() => (
+                <FormItem className="w-full">
+                  <FormLabel>Property Type</FormLabel>
+                  <FormControl>
+                    <Controller
+                      control={form.control}
+                      name="property"
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={(value) => field.onChange(value)}
+                        >
+                          <SelectTrigger className="w-full p-2 border-2 border-gray-300 rounded-md">
+                            <SelectValue placeholder="Select Your Property Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem
+                                value="1 BHK"
+                                className="cursor-pointer"
+                              >
+                                1 BHK
+                              </SelectItem>
+                              <SelectItem
+                                value="2 BHK"
+                                className="cursor-pointer"
+                              >
+                                2 BHK
+                              </SelectItem>
+                              <SelectItem
+                                value="Single Room"
+                                className="cursor-pointer"
+                              >
+                                Single Room
+                              </SelectItem>
+                              <SelectItem
+                                value="Double Room"
+                                className="cursor-pointer"
+                              >
+                                Double Room
+                              </SelectItem>
+                              <SelectItem
+                                value="Flat"
+                                className="cursor-pointer"
+                              >
+                                Flat
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
+<FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Location Here" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price</FormLabel>
+                  <FormLabel>Price (per month in nepali rupees)</FormLabel>
                   <div className="relative">
                     <FormControl>
                       <Input
@@ -366,6 +467,7 @@ const Page = () => {
                 Clear
               </Button>
             </div>
+            <ToastContainer />
           </form>
         </Form>
       </div>
@@ -394,7 +496,7 @@ const Page = () => {
                   </CardDescription>
                   <div className="flex justify-between items-center pl-1">
                     <CardDescription className="truncate font-bold">
-                      Cost: {item.price}
+                    Location: {item.location}
                     </CardDescription>
                     <Link
                       href={`/dashboard-uploader/upload-availability/${item.unique_id}?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}&Pid=${item.unique_id}`}

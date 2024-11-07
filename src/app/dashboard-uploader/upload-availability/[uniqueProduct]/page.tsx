@@ -30,6 +30,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
@@ -38,6 +46,8 @@ type UploaderData = {
   unique_id: string;
   headline: string;
   description: string;
+  property: string;
+  location: string;
   price: string;
   imageUrl: string;
   imageUrls: [string];
@@ -161,6 +171,8 @@ const Page = () => {
     description: z
       .string()
       .min(1, "Description is required or should be modified"),
+      property: z.string().min(1, "Property is required or should be modified"),
+    location: z.string().min(1, "Location is required or should be modified"),
     price: z.string().min(1, "Price is required or should be modified"),
     image: z
       .instanceof(File, { message: "Thumbnail Image is required" })
@@ -176,6 +188,8 @@ const Page = () => {
     defaultValues: {
       headline: "",
       description: "",
+      property: "",
+      location: "",
       price: "",
       image: undefined,
       images: [],
@@ -217,11 +231,20 @@ const Page = () => {
   }
 
   function onSubmit(data: z.infer<typeof FormSchema>, item: UploaderData) {
+    if (isNaN(Number(data.price))) {
+      toast.error("Price should be in Number.", {
+        draggable: true,
+        theme: "colored",
+      });
+      return;
+    }
     const limit = 4 - item.imageUrls.length;
     // Create FormData to handle text and image data
     const formData = new FormData();
     formData.append("headline", data.headline);
     formData.append("description", data.description);
+    formData.append("property", data.property);
+    formData.append("location", data.location);
     formData.append("price", data.price);
     // Append single image if it exists
     if (data.image) {
@@ -420,12 +443,93 @@ const Page = () => {
                 )}
               />
 
+<FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Location</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter Location Here"
+                          {...field}
+                          value={item.location}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            item.location = e.target.value;
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="property"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Property Type</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={item.property} // Sync with React Hook Form's state
+                          onValueChange={(value) => {
+                            // Use onValueChange instead of onChange if required by Select component
+                            field.onChange(value); // Update form control state
+                            item.property = value; // Update item property if necessary for other use
+                          }}
+                        >
+                          <SelectTrigger className="w-full p-2 border-2 border-gray-300 rounded-md">
+                            <SelectValue placeholder="Select Your Property Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem
+                                value="1 BHK"
+                                className="cursor-pointer"
+                              >
+                                1 BHK
+                              </SelectItem>
+                              <SelectItem
+                                value="2 BHK"
+                                className="cursor-pointer"
+                              >
+                                2 BHK
+                              </SelectItem>
+                              <SelectItem
+                                value="Single Room"
+                                className="cursor-pointer"
+                              >
+                                Single Room
+                              </SelectItem>
+                              <SelectItem
+                                value="Double Room"
+                                className="cursor-pointer"
+                              >
+                                Double Room
+                              </SelectItem>
+                              <SelectItem
+                                value="Flat"
+                                className="cursor-pointer"
+                              >
+                                Flat
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
               <FormField
                 control={form.control}
                 name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>Price (per month in nepali rupees)</FormLabel>
                     <div className="relative">
                       <FormControl>
                         <Input
