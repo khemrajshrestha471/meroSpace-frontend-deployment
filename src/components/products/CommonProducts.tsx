@@ -18,14 +18,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { decodeToken } from "@/components/utils/decodeToken.js";
-import { useRouter } from "next/navigation";
-
-interface DecodedToken {
-  username: string;
-  role: string;
-  userId: string;
-}
 
 type UploaderData = {
   id: string;
@@ -37,18 +29,11 @@ type UploaderData = {
   imageUrl: string;
 };
 
-export default function Products() {
+export default function CommonProducts() {
   const [data, setData] = useState<UploaderData[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-  const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [role, setRole] = useState("");
-  const [id, setId] = useState("");
-  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
-    null
-  );
 
   useEffect(() => {
     const isFirstRenderLanding = localStorage.getItem("firstRenderLanding");
@@ -60,37 +45,14 @@ export default function Products() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = decodeToken(token);
-      setIsDecodedToken(decodedToken);
-      if (decodedToken) {
-        setUsername(decodedToken.username);
-        setRole(decodedToken.role);
-        setId(decodedToken.userId);
-      }
-      if (role === "uploader") {
-        router.push(
-          `/dashboard-uploader?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-        );
-      } else if (role === "seeker") {
-        router.push(
-          `/dashboard-seeker?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-        );
-      }
-    }
-  }, [username, role, id]);
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://mero-space-backend-deployment.vercel.app/get-all-data");
+        const response = await fetch("http://localhost:4000/get-all-data");
         const result = await response.json();
         setData(result);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        console.error("Token:", isDecodedToken);
         setLoading(false);
       }
     };
@@ -137,7 +99,7 @@ export default function Products() {
                   </CardDescription>
                   <div className="flex justify-between items-center pl-1">
                     <CardDescription className="truncate font-bold">
-                    Location: {item.location}
+                      Location: {item.location}
                     </CardDescription>
                     <Link href={`/Unique-Product?Pid=${item.unique_id}`}>
                       <Button className="ml-2">Explore</Button>
