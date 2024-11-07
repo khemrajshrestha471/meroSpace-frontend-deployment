@@ -90,8 +90,8 @@ const Navbar = () => {
             >
               <Image
                 src="/assets/images/logo.png"
-                width={35}
-                height={35}
+                width={30}
+                height={30}
                 alt="meroSpace's logo"
                 unoptimized
               />
@@ -104,8 +104,8 @@ const Navbar = () => {
             >
               <Image
                 src="/assets/images/logo.png"
-                width={35}
-                height={35}
+                width={30}
+                height={30}
                 alt="meroSpace's logo"
                 unoptimized
               />
@@ -115,8 +115,8 @@ const Navbar = () => {
             <a className="navbar-brand flex items-center" href="/">
               <Image
                 src="/assets/images/logo.png"
-                width={35}
-                height={35}
+                width={30}
+                height={30}
                 alt="meroSpace's logo"
                 unoptimized
               />
