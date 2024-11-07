@@ -66,7 +66,7 @@ const LandingPage = () => {
               <FormField
                 control={form.control}
                 name="budget"
-                render={({ field }) => (
+                render={() => (
                   <FormItem className="w-full">
                     <FormControl>
                       <Controller
@@ -125,7 +125,7 @@ const LandingPage = () => {
               <FormField
                 control={form.control}
                 name="property"
-                render={({ field }) => (
+                render={() => (
                   <FormItem className="w-full">
                     <FormControl>
                       <Controller
