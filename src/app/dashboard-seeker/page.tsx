@@ -329,7 +329,6 @@ interface DecodedToken {
 }
 import LandingPage from "@/components/landingPage/LandingPage";
 import Products from "@/components/products/Products";
-import Footer from "@/components/footer/Footer";
 
 const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
@@ -437,7 +436,6 @@ const Page = () => {
     <>
     <LandingPage />
     <Products />
-    <Footer />
     </>
   );
 };

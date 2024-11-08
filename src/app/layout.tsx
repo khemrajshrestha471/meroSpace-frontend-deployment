@@ -6,6 +6,9 @@ import dynamic from "next/dynamic";
 const DynamicNavbar = dynamic(() => import('@/components/Navbar'), {
   ssr: false, // This prevents server-side rendering for this component
 });
+const Footer = dynamic(() => import('@/components/footer/Footer'), {
+  ssr: false, // This prevents server-side rendering for this component
+});
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -34,6 +37,7 @@ export default function RootLayout({
       >
         <DynamicNavbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

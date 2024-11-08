@@ -93,11 +93,11 @@ const SearchProductPage = () => {
           layout="fill"
           className="object-cover w-full h-full"
         />
-        <div className="absolute inset-0 bg-black opacity-10"></div>
+        <div className="absolute inset-0 bg-black opacity-40"></div>
 
-        <div className="absolute inset-0 flex items-start justify-left p-4">
+        <div className="absolute inset-0 flex items-end justify-left p-8 px-16">
           <p
-            className="text-blue-500 text-4xl font-bold font-sans"
+            className="text-white text-4xl font-bold font-sans"
             style={{ fontFamily: "Arial, Arial, sans-serif" }}
           >
             {searchResults?.length} Result(s) found!
