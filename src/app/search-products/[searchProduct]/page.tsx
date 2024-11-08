@@ -88,7 +88,7 @@ const SearchProductPage = () => {
     <div>
       <div className="relative w-full h-[50vh]">
         <Image
-          src="/assets/images/search-found.jpg"
+          src="/assets/images/search-found.png"
           alt="Search Results"
           layout="fill"
           className="object-cover w-full h-full"
