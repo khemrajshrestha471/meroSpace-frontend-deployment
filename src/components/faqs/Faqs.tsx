@@ -8,7 +8,7 @@ import {
   const Faqs = () => {
     return (
       <div className="m-6">
-        <p className="text-center text-2xl font-semibold">FAQ</p>
+        <p className="text-center text-2xl font-semibold text-blue-500">FAQs</p>
         <Accordion
           type="single"
           collapsible
