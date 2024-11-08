@@ -43,7 +43,7 @@ export default function Products() {
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
   const [id, setId] = useState("");
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
 
@@ -87,6 +87,7 @@ export default function Products() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        console.log("Token:- ", isDecodedToken)
         setLoading(false);
       }
     };
