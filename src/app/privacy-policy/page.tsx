@@ -23,15 +23,13 @@ const page = () => {
       </div>
 
       <div className="max-w-7xl mx-auto p-6 sm:p-8 md:p-12 lg:p-16 leading-relaxed text-black">
-        <h1 className="text-xl text-left">
-          Last Updated: 2024-11-08
-        </h1>
+        <h1 className="text-xl text-left">Last Updated: 2024-11-08</h1>
 
         <h2 className="text-xl font-semibold mt-6">
           1. Information We Collect
         </h2>
         <p className="mt-2">
-          We collect information to provide better services to all users of{" "}
+          We collect information to provide better services to all users of
           <strong>meroSpace</strong>. The types of data we may collect include:
         </p>
         <ul className="list-disc list-inside ml-4 mt-2">
@@ -170,10 +168,13 @@ const page = () => {
           data practices, please contact us at:
         </p>
         <p className="mt-2">
-          <strong>Email</strong>:             <a
-              href="mailto:khemrajshrestha471@gmail.com"
-              className="text-black no-underline"
-            >khemrajshrestha@gmail.com</a>
+          <strong>Email</strong>:
+          <a
+            href="mailto:khemrajshrestha471@gmail.com"
+            className="text-black no-underline"
+          >
+            khemrajshrestha@gmail.com
+          </a>
           <br />
           <strong>Address</strong>: Kathmandu, Nepal
         </p>

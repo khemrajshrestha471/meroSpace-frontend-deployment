@@ -99,7 +99,7 @@ const Footer = () => {
                 src="/assets/images/logo.png"
                 width={120}
                 height={120}
-                alt="meroSpace's logo"
+                alt="meroSpace logo"
                 className="-mt-3"
                 unoptimized
               />
@@ -113,7 +113,7 @@ const Footer = () => {
                 src="/assets/images/logo.png"
                 width={120}
                 height={120}
-                alt="meroSpace's logo"
+                alt="meroSpace logo"
                 className="-mt-3"
                 unoptimized
               />
@@ -124,7 +124,7 @@ const Footer = () => {
                 src="/assets/images/logo.png"
                 width={120}
                 height={120}
-                alt="meroSpace's logo"
+                alt="meroSpace logo"
                 className="-mt-3"
                 unoptimized
               />
@@ -190,7 +190,7 @@ const Footer = () => {
           <span className="font-bold">meroSpace</span> is a platform designed
           for individuals seeking rental properties such as rooms, flats,
           houses, land, shutters, and commercial spaces, without the burden of
-          paying any brokerage fees. Whether you're looking for a place to rent
+          paying any brokerage fees. Whether you are looking for a place to rent
           or a roommate, short-term or long-term paying guest, or a tenant,
           meroSpace offers a hassle-free experience.
           <br />
