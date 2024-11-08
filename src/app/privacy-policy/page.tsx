@@ -157,7 +157,7 @@ const page = () => {
         <p className="mt-2">
           We may update our Privacy Policy to reflect changes in our practices,
           technology, or legal requirements. When we make changes, we will post
-          the updated policy with a revised "Last Updated" date at the top. Your
+          the updated policy with a revised &quot;Last Updated&quot; date at the top. Your
           continued use of <strong>meroSpace</strong> after these changes
           signifies your acceptance of the updated policy.
         </p>
