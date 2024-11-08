@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
 import {
   Card,
   CardDescription,
@@ -38,15 +36,14 @@ type UploaderData = {
 };
 
 export default function Products() {
+  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
   const [data, setData] = useState<UploaderData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
   const [id, setId] = useState("");
-  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
 
@@ -90,7 +87,6 @@ export default function Products() {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        console.error("Token:", isDecodedToken);
         setLoading(false);
       }
     };
@@ -102,150 +98,52 @@ export default function Products() {
     return <p>Loading...</p>;
   }
 
-  // Calculate the current items to display
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Calculate total pages
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-
   return (
-    <>
-      <div className="w-full overflow-hidden pr-8 pt-4">
-        <ul className="flex flex-wrap justify-center gap-4">
-          {currentItems.map((item) => (
-            <li
+    <div className="flex justify-center items-center p-3">
+      <Carousel
+        plugins={[plugin.current]}
+        onMouseEnter={() => plugin.current.stop()}
+        onMouseLeave={() => plugin.current.play()}
+        className="w-full max-w-6xl"
+      >
+        <CarouselContent>
+          {data.map((item) => (
+            <CarouselItem
               key={item.unique_id}
-              className="flex-shrink-0 w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5"
+              className="md:basis-1/3 lg:basis-1/4"
             >
-              <Card className="flex flex-col min-h-[350px] overflow-hidden">
-                <div className="flex-grow">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.headline}
-                    className="h-[200px] w-full object-cover"
-                    style={{ borderRadius: "0.5rem 0.5rem 0 0" }}
-                  />
-                </div>
-                <CardHeader className="flex flex-col p-2">
-                  <CardTitle className="truncate font-semibold pl-1">
-                    {item.headline}
-                  </CardTitle>
-                  <CardDescription className="truncate text-gray-600 pl-1">
-                    {item.description}
-                  </CardDescription>
-                  <div className="flex justify-between items-center pl-1">
-                    <CardDescription className="truncate font-bold">
-                    Location: {item.location}
-                    </CardDescription>
-                    <Link href={`/Unique-Product?Pid=${item.unique_id}`}>
-                      <Button className="ml-2">Explore</Button>
-                    </Link>
+              <div className="p-1">
+                <Card className="flex flex-col min-h-[350px] overflow-hidden">
+                  <div className="flex-grow">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.headline}
+                      className="h-[200px] w-full object-cover"
+                      style={{ borderRadius: "0.5rem 0.5rem 0 0" }}
+                    />
                   </div>
-                </CardHeader>
-              </Card>
-            </li>
+                  <CardHeader className="flex flex-col p-2">
+                    <CardTitle className="truncate font-semibold pl-1">
+                      {item.headline}
+                    </CardTitle>
+                    <CardDescription className="truncate text-gray-600 pl-1">
+                      {item.description}
+                    </CardDescription>
+                    <div className="flex justify-between items-center pl-1">
+                      <CardDescription className="truncate font-bold">
+                        Location: {item.location}
+                      </CardDescription>
+                      <Link href={`/Unique-Product?Pid=${item.unique_id}`}>
+                        <Button className="ml-2">Explore</Button>
+                      </Link>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </div>
+            </CarouselItem>
           ))}
-        </ul>
-        {data.length > 0 && (
-          <div className="flex justify-center mt-4">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevent the default anchor behavior
-                      if (currentPage > 1) {
-                        setCurrentPage((prev) => prev - 1);
-                      }
-                    }}
-                    className="no-underline"
-                  />
-                </PaginationItem>
-
-                {/* Render pagination numbers */}
-                {Array.from({ length: totalPages }, (_, index) => {
-                  const pageNumber = index + 1;
-
-                  // Show ellipsis only when needed
-                  if (
-                    (pageNumber > 2 &&
-                      currentPage > 2 &&
-                      currentPage < totalPages - 1 &&
-                      pageNumber === currentPage - 1) ||
-                    (pageNumber < totalPages - 1 &&
-                      currentPage < totalPages - 1 &&
-                      pageNumber === currentPage + 1)
-                  ) {
-                    return null; // Skip rendering this page number
-                  }
-
-                  // Render the first two and last two pages with ellipsis in between
-                  if (
-                    pageNumber === 1 ||
-                    pageNumber === 2 ||
-                    pageNumber === totalPages - 1 ||
-                    pageNumber === totalPages
-                  ) {
-                    return (
-                      <PaginationItem key={pageNumber}>
-                        <PaginationLink
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setCurrentPage(pageNumber);
-                          }}
-                          isActive={currentPage === pageNumber}
-                          className="no-underline"
-                        >
-                          {pageNumber}
-                        </PaginationLink>
-                      </PaginationItem>
-                    );
-                  }
-
-                  // Render ellipsis in the middle
-                  if (
-                    pageNumber === currentPage - 1 ||
-                    pageNumber === currentPage + 1
-                  ) {
-                    return null; // Skip rendering the adjacent pages to avoid duplicates
-                  }
-
-                  if (
-                    (currentPage > 3 && pageNumber === 3) ||
-                    (currentPage < totalPages - 2 &&
-                      pageNumber === totalPages - 2)
-                  ) {
-                    return (
-                      <PaginationItem key={pageNumber}>
-                        <PaginationEllipsis className="text-blue-600" />
-                      </PaginationItem>
-                    );
-                  }
-
-                  return null; // Skip rendering other pages
-                })}
-
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault(); // Prevent the default anchor behavior
-                      if (currentPage < totalPages) {
-                        setCurrentPage((prev) => prev + 1);
-                      }
-                    }}
-                    className="no-underline"
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        )}
-      </div>
-    </>
+        </CarouselContent>
+      </Carousel>
+    </div>
   );
 }

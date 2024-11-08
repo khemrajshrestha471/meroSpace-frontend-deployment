@@ -143,7 +143,7 @@ const Page = () => {
   return (
     <>
       <div className="p-4 w-full overflow-hidden">
-        <ul className="flex flex-wrap justify-start gap-4">
+        <ul className="flex flex-wrap justify-center gap-4">
           {currentItems.map((item) => (
             <li
               key={item.unique_id}
