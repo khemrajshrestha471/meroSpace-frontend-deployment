@@ -318,6 +318,7 @@ interface DecodedToken {
 }
 import LandingPage from "@/components/landingPage/LandingPage";
 import Products from "@/components/products/Products";
+import Faqs from "@/components/faqs/Faqs";
 
 
 const Page = () => {
@@ -422,6 +423,7 @@ const Page = () => {
     <>
     <LandingPage />
     <Products />
+    <Faqs />
     </>
   );
 };

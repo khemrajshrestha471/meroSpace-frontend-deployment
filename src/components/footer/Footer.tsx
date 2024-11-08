@@ -42,20 +42,26 @@ const Footer = () => {
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          >
-            Hattigauda
+          ><a href="https://mero-space-backend-deployment.vercel.app/search-products/Kathmandu?location=Kathmandu" className="no-underline text-black">
+            Kathmandu </a>
           </li>
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          >
-            Thapathali, Kathmandu
+          > <a href="https://mero-space-backend-deployment.vercel.app/search-products/Hattigauda?location=Hattigauda" className="no-underline text-black">
+            Hattigauda </a>
           </li>
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          >
-            Kalanki, Kathmandu
+          > <a href="https://mero-space-backend-deployment.vercel.app/search-products/Chakrapath,%20Kathmandu?location=Chakrapath%2C+Kathmandu" className="no-underline text-black">
+            Chakrapath, Kathmandu </a>
+          </li>
+          <li
+            className="text-black font-thin mt-1 list-none"
+            style={{ fontFamily: "Arial, sans-serif" }}
+          > <a href="https://mero-space-backend-deployment.vercel.app/search-products/Thapathali?location=Thapathali" className="no-underline text-black">
+            Thapathali </a>
           </li>
         </div>
 
@@ -66,14 +72,20 @@ const Footer = () => {
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          >
-            Blog
+          ><a href="/blog" className="no-underline text-black">
+            Blog </a>
+          </li>
+          <li
+            className="text-black font-thin mt-1 list-none"
+            style={{ fontFamily: "Arial, sans-serif" }}
+          > <a href="/feedback" className="no-underline text-black">
+            Feedback </a>
           </li>
         </div>
 
         <div className="w-full md:w-auto">
           <p className="font-semibold text-blue-500 text-lg md:text-xl">
-            Accounts
+          Guidelines
           </p>
           <li
             className="text-black font-thin mt-1 list-none"
@@ -99,7 +111,7 @@ const Footer = () => {
                 src="/assets/images/logo.png"
                 width={120}
                 height={120}
-                alt="meroSpace logo"
+                alt="meroSpace's logo"
                 className="-mt-3"
                 unoptimized
               />
@@ -113,7 +125,7 @@ const Footer = () => {
                 src="/assets/images/logo.png"
                 width={120}
                 height={120}
-                alt="meroSpace logo"
+                alt="meroSpace's logo"
                 className="-mt-3"
                 unoptimized
               />
@@ -124,7 +136,7 @@ const Footer = () => {
                 src="/assets/images/logo.png"
                 width={120}
                 height={120}
-                alt="meroSpace logo"
+                alt="meroSpace's logo"
                 className="-mt-3"
                 unoptimized
               />
@@ -190,7 +202,7 @@ const Footer = () => {
           <span className="font-bold">meroSpace</span> is a platform designed
           for individuals seeking rental properties such as rooms, flats,
           houses, land, shutters, and commercial spaces, without the burden of
-          paying any brokerage fees. Whether you are looking for a place to rent
+          paying any brokerage fees. Whether you're looking for a place to rent
           or a roommate, short-term or long-term paying guest, or a tenant,
           meroSpace offers a hassle-free experience.
           <br />
@@ -202,14 +214,14 @@ const Footer = () => {
           </span>
         </p>
         <p className="flex items-center justify-center mt-2 text-xs md:text-sm text-center">
-          <FaCopyright className="mr-1" />
+          <FaCopyright className="mr-1" />{" "}
           <a
             href="https://www.khemrajshrestha.com.np/"
             className="no-underline text-slate-800 mr-1"
             target="_blank"
           >
             KHEM RAJ SHRESTHA
-          </a>
+          </a>{" "}
           2024 | All rights reserved
         </p>
       </div>
