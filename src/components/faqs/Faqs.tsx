@@ -37,7 +37,7 @@ import {
             How do I list my property on meroSpace?
             </AccordionTrigger>
             <AccordionContent className="px-4 py-3 text-sm text-black bg-white border-t">
-            To list your property, create an account on meroSpace and go to the "Post a Property" section. Enter the details of your property, upload images, and submit your listing. Once approved, it will be visible to other users.
+            To list your property, create an account on meroSpace and go to the &quot;Post a Property&quot; section. Enter the details of your property, upload images, and submit your listing. Once approved, it will be visible to other users.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
@@ -61,7 +61,7 @@ import {
             How do I contact a property owner?
             </AccordionTrigger>
             <AccordionContent className="px-4 py-3 text-sm text-black bg-white border-t">
-            Once you find a property you're interested in, you can contact the property owner directly through the contact details provided in the listing or by using the contact button if available.
+            Once you find a property you are interested in, you can contact the property owner directly through the contact details provided in the listing or by using the contact button if available.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-7">
