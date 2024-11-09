@@ -42,25 +42,25 @@ const Footer = () => {
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          ><a href="https://mero-space-backend-deployment.vercel.app/search-products/Kathmandu?location=Kathmandu" className="no-underline text-black">
+          ><a href="https://mero-space.vercel.app/search-products/Kathmandu?location=Kathmandu" className="no-underline text-black">
             Kathmandu </a>
           </li>
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          > <a href="https://mero-space-backend-deployment.vercel.app/search-products/Hattigauda?location=Hattigauda" className="no-underline text-black">
+          > <a href="https://mero-space.vercel.app/search-products/Hattigauda?location=Hattigauda" className="no-underline text-black">
             Hattigauda </a>
           </li>
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          > <a href="https://mero-space-backend-deployment.vercel.app/search-products/Chakrapath,%20Kathmandu?location=Chakrapath%2C+Kathmandu" className="no-underline text-black">
+          > <a href="https://mero-space.vercel.app/search-products/Chakrapath,%20Kathmandu?location=Chakrapath%2C+Kathmandu" className="no-underline text-black">
             Chakrapath, Kathmandu </a>
           </li>
           <li
             className="text-black font-thin mt-1 list-none"
             style={{ fontFamily: "Arial, sans-serif" }}
-          > <a href="https://mero-space-backend-deployment.vercel.app/search-products/Thapathali?location=Thapathali" className="no-underline text-black">
+          > <a href="https://mero-space.vercel.app/search-products/Thapathali?location=Thapathali" className="no-underline text-black">
             Thapathali </a>
           </li>
         </div>
