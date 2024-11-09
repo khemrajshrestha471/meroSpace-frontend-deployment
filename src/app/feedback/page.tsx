@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const page = () => {
+const Page = () => {
   const FormSchema = z.object({
     sentiment: z.string().min(1, "Sentiment is required"),
     title: z.string().min(1, "Title is required"),
@@ -202,4 +202,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
