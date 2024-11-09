@@ -35,6 +35,7 @@ type UploaderData = {
   price: string;
   imageUrl: string;
   imageUrls: string[];
+  listing_status: string;
 };
 
 const Page = () => {
@@ -139,43 +140,53 @@ const Page = () => {
             <p className="text-center">Location: <span className="font-bold">{item.location}</span></p>
             <p className="text-center font-bold">Cost / month (Rs.): {item.price}</p>
             <div>
-              {role === "seeker" ? (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      className="bg-green-600 float-right"
-                      onClick={getContactDetailsOfOwner}
-                    >
-                      Book Now
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Details of this product owner!
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Contact Number of owner:- {contactNumber}
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Okay</AlertDialogCancel>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+              {item.listing_status !== "Sold Out" ? (
+                <>
+                  {role === "seeker" ? (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          className="bg-green-600 float-right"
+                          onClick={getContactDetailsOfOwner}
+                        >
+                          Book Now
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Details of this product owner!
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Contact Number of owner:- {contactNumber}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Okay</AlertDialogCancel>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  ) : (
+                    <>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            className="bg-green-600 float-right"
+                            onClick={getContactDetailsOfOwner}
+                          >
+                            Book Now
+                          </Button>
+                        </AlertDialogTrigger>
+                      </AlertDialog>
+                      <ToastContainer />
+                    </>
+                  )}
+                </>
               ) : (
                 <>
-                <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    className="bg-green-600 float-right"
-                    onClick={getContactDetailsOfOwner}
-                  >
-                    Book Now
+                  <Button className="bg-red-600 float-right" disabled>
+                    Sold Out
                   </Button>
-                </AlertDialogTrigger>
-                </AlertDialog>
-                <ToastContainer />
                 </>
               )}
             </div>
