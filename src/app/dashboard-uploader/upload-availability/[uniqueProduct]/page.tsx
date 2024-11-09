@@ -51,6 +51,7 @@ type UploaderData = {
   price: string;
   imageUrl: string;
   imageUrls: [string];
+  listing_status: string;
 };
 
 interface DecodedToken {
@@ -181,6 +182,7 @@ const Page = () => {
       .array(z.instanceof(File))
       .max(4, "You can upload a maximum of 4 images")
       .optional(),
+      listing_status: z.string().min(1, "Listing Status is required or should be modified"),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -193,6 +195,7 @@ const Page = () => {
       price: "",
       image: undefined,
       images: [],
+      listing_status: "",
     },
   });
 
@@ -246,6 +249,7 @@ const Page = () => {
     formData.append("property", data.property);
     formData.append("location", data.location);
     formData.append("price", data.price);
+    formData.append("listing_status", data.listing_status);
     // Append single image if it exists
     if (data.image) {
       formData.append("image", data.image);
@@ -632,6 +636,77 @@ const Page = () => {
                   Upload Additional Images
                 </button>
               )}
+
+<FormField
+                  control={form.control}
+                  name="listing_status"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Listing Status</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={item.listing_status} // Sync with React Hook Form's state
+                          onValueChange={(value) => {
+                            // Use onValueChange instead of onChange if required by Select component
+                            field.onChange(value); // Update form control state
+                            item.listing_status = value; // Update item property if necessary for other use
+                          }}
+                        >
+                          <SelectTrigger className="w-full p-2 border-2 border-gray-300 rounded-md">
+                            <SelectValue placeholder="Select Your Property Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem
+                                value="Urgent Sell"
+                                className="cursor-pointer"
+                              >
+                                Urgent Sell
+                              </SelectItem>
+                              <SelectItem
+                                value="Rent"
+                                className="cursor-pointer"
+                              >
+                                Rent
+                              </SelectItem>
+                              <SelectItem
+                                value="10% Off"
+                                className="cursor-pointer"
+                              >
+                                10% Off
+                              </SelectItem>
+                              <SelectItem
+                                value="20% Off"
+                                className="cursor-pointer"
+                              >
+                                20% Off
+                              </SelectItem>
+                              <SelectItem
+                                value="30% Off"
+                                className="cursor-pointer"
+                              >
+                                30% Off
+                              </SelectItem>
+                              <SelectItem
+                                value="Sold Out"
+                                className="cursor-pointer"
+                              >
+                                Sold Out
+                              </SelectItem>
+                              <SelectItem
+                                value="None"
+                                className="cursor-pointer"
+                              >
+                                None
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
               <div className="flex space-x-4 mb-4">
                 <Button type="submit">Submit</Button>

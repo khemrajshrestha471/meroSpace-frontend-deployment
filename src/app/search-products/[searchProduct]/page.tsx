@@ -30,6 +30,7 @@ interface SearchResult {
   location: string;
   price: number;
   imageUrl: string;
+  listing_status: string;
 }
 
 const SearchProductPage = () => {
@@ -49,17 +50,20 @@ const SearchProductPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://mero-space-backend-deployment.vercel.app/search-product", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            location,
-            budget,
-            property,
-          }),
-        });
+        const response = await fetch(
+          "https://mero-space-backend-deployment.vercel.app/search-product",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              location,
+              budget,
+              property,
+            }),
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -114,7 +118,7 @@ const SearchProductPage = () => {
                   key={item.unique_id}
                   className="flex-shrink-0 w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5"
                 >
-                  <Card className="flex flex-col min-h-[350px] overflow-hidden">
+                  <Card className="flex flex-col min-h-[350px] overflow-hidden relative">
                     <div className="flex-grow">
                       <img
                         src={item.imageUrl}
@@ -122,6 +126,11 @@ const SearchProductPage = () => {
                         className="h-[200px] w-full object-cover"
                         style={{ borderRadius: "0.5rem 0.5rem 0 0" }}
                       />
+                      {item.listing_status !== "None" && (
+                        <div className="absolute top-0 right-0 bg-red-500 text-white font-semibold text-xs px-4 py-1 rounded-tr-lg rounded-bl-lg">
+                          {item.listing_status}
+                        </div>
+                      )}
                     </div>
                     <CardHeader className="flex flex-col p-2">
                       <CardTitle className="truncate font-semibold pl-1">
@@ -243,8 +252,13 @@ const SearchProductPage = () => {
           </div>
         ) : (
           <>
-          <p className="text-center font-bold text-3xl text-blue-500 font-sans pt-2" style={{ fontFamily: "Arial, Arial, sans-serif" }}>Recommend Results</p>
-          <CommonProducts />
+            <p
+              className="text-center font-bold text-3xl text-blue-500 font-sans pt-2"
+              style={{ fontFamily: "Arial, Arial, sans-serif" }}
+            >
+              Recommend Results
+            </p>
+            <CommonProducts />
           </>
         )}
       </div>

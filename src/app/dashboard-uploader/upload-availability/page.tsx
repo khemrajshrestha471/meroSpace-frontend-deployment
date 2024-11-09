@@ -10,8 +10,8 @@ import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 
 import { Button } from "@/components/ui/button";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Card,
   CardDescription,
@@ -55,6 +55,7 @@ type UploaderData = {
   location: string;
   price: number;
   imageUrl: string;
+  listing_status: string;
 };
 
 interface DecodedToken {
@@ -178,6 +179,7 @@ const Page = () => {
       .array(z.instanceof(File))
       .max(4, "You can upload a maximum of 4 images")
       .optional(),
+    listing_status: z.string().min(1, "Listing Status is required"),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -190,6 +192,7 @@ const Page = () => {
       price: "",
       image: undefined,
       images: [],
+      listing_status: "",
     },
   });
 
@@ -210,8 +213,6 @@ const Page = () => {
 
   // Calculate total pages
   const totalPages = Math.ceil(data.length / itemsPerPage);
-
-  
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     if (isNaN(Number(data.price))) {
@@ -236,6 +237,7 @@ const Page = () => {
     formData.append("location", data.location);
     formData.append("price", data.price);
     formData.append("image", data.image);
+    formData.append("listing_status", data.listing_status);
 
     // Append multiple images if any are selected
     if (data.images) {
@@ -342,7 +344,7 @@ const Page = () => {
               )}
             />
 
-<FormField
+            <FormField
               control={form.control}
               name="property"
               render={() => (
@@ -403,8 +405,7 @@ const Page = () => {
               )}
             />
 
-
-<FormField
+            <FormField
               control={form.control}
               name="location"
               render={({ field }) => (
@@ -461,6 +462,79 @@ const Page = () => {
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="listing_status"
+              render={() => (
+                <FormItem className="w-full">
+                  <FormLabel>Listing Status (optional)</FormLabel>
+                  <FormControl>
+                    <Controller
+                      control={form.control}
+                      name="listing_status"
+                      render={({ field }) => (
+                        <Select
+                          value={field.value}
+                          onValueChange={(value) => field.onChange(value)}
+                        >
+                          <SelectTrigger className="w-full p-2 border-2 border-gray-300 rounded-md">
+                            <SelectValue placeholder="Select Your Property Type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem
+                                value="Urgent Sell"
+                                className="cursor-pointer"
+                              >
+                                Urgent Sell
+                              </SelectItem>
+                              <SelectItem
+                                value="Rent"
+                                className="cursor-pointer"
+                              >
+                                Rent
+                              </SelectItem>
+                              <SelectItem
+                                value="10% Off"
+                                className="cursor-pointer"
+                              >
+                                10% Off
+                              </SelectItem>
+                              <SelectItem
+                                value="20% Off"
+                                className="cursor-pointer"
+                              >
+                                20% Off
+                              </SelectItem>
+                              <SelectItem
+                                value="30% Off"
+                                className="cursor-pointer"
+                              >
+                                30% Off
+                              </SelectItem>
+                              <SelectItem
+                                value="Sold Out"
+                                className="cursor-pointer"
+                              >
+                                Sold Out
+                              </SelectItem>
+                              <SelectItem
+                                value="None"
+                                className="cursor-pointer"
+                              >
+                                None
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="flex space-x-4">
               <Button type="submit">Upload</Button>
               <Button type="button" variant="destructive" onClick={handleClear}>
@@ -486,6 +560,11 @@ const Page = () => {
                     className="h-[200px] w-full object-cover"
                     style={{ borderRadius: "0.5rem 0.5rem 0 0" }}
                   />
+                  {item.listing_status !== "None" && (
+                    <div className="absolute top-0 right-0 bg-red-500 text-white font-semibold text-xs px-4 py-1 rounded-tr-lg rounded-bl-lg">
+                      {item.listing_status}
+                    </div>
+                  )}
                 </div>
                 <CardHeader className="flex flex-col p-2">
                   <CardTitle className="truncate font-semibold pl-1">
@@ -496,7 +575,7 @@ const Page = () => {
                   </CardDescription>
                   <div className="flex justify-between items-center pl-1">
                     <CardDescription className="truncate font-bold">
-                    Location: {item.location}
+                      Location: {item.location}
                     </CardDescription>
                     <Link
                       href={`/dashboard-uploader/upload-availability/${item.unique_id}?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}&Pid=${item.unique_id}`}

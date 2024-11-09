@@ -33,6 +33,7 @@ type UploaderData = {
   location: string;
   price: number;
   imageUrl: string;
+  listing_status: string;
 };
 
 export default function Products() {
@@ -114,7 +115,7 @@ export default function Products() {
               className="md:basis-1/3 lg:basis-1/4"
             >
               <div className="p-1">
-                <Card className="flex flex-col min-h-[350px] overflow-hidden">
+                <Card className="flex flex-col min-h-[350px] overflow-hidden relative">
                   <div className="flex-grow">
                     <img
                       src={item.imageUrl}
@@ -122,6 +123,11 @@ export default function Products() {
                       className="h-[200px] w-full object-cover"
                       style={{ borderRadius: "0.5rem 0.5rem 0 0" }}
                     />
+                    {item.listing_status !== "None" && (
+                      <div className="absolute top-0 right-0 bg-red-500 text-white font-semibold text-xs px-4 py-1 rounded-tr-lg rounded-bl-lg">
+                        {item.listing_status}
+                      </div>
+                    )}
                   </div>
                   <CardHeader className="flex flex-col p-2">
                     <CardTitle className="truncate font-semibold pl-1">
