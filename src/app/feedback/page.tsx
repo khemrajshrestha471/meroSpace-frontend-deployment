@@ -47,7 +47,7 @@ const Page = () => {
   };
 
   const SendSuccess = () => {
-    toast.success("Feedback submitted successfully!", {
+    toast.success("Thank you for your feedback!", {
       draggable: true,
       theme: "colored",
     });
