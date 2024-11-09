@@ -300,7 +300,7 @@ const Page = () => {
                 name="tentative_price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tentative Price</FormLabel>
+                    <FormLabel>Tentative Price (per month in nepali rupees)</FormLabel>
                     <div className="relative">
                       <FormControl>
                         <Input

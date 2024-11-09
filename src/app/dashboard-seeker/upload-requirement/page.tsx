@@ -266,7 +266,7 @@ const Page = () => {
               name="tentative_price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tentative Price</FormLabel>
+                  <FormLabel>Tentative Price (per month in nepali rupees)</FormLabel>
                   <div className="relative">
                     <FormControl>
                       <Input
@@ -310,7 +310,7 @@ const Page = () => {
                   </CardDescription>
                   <div className="flex justify-between items-center pl-1">
                     <CardDescription className="truncate font-bold">
-                    Tentative Price: {item.tentative_price}
+                    Tentative Price (Rs): {item.tentative_price}
                     </CardDescription>
                     <Link
                       href={`/dashboard-seeker/upload-requirement/${item.unique_id}?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}&Pid=${item.unique_id}`}
