@@ -38,7 +38,7 @@ const page = () => {
         <p className="mt-4 text-md md:text-md lg:text-md leading-relaxed">
           For <span className="font-semibold">uploaders</span>, meroSpace
           provides a quick and simple way to list available rooms. Whether
-          you're looking to rent out a spare room or sell a property, our
+          you are looking to rent out a spare room or sell a property, our
           platform ensures your listings reach a broad audience of seekers
           actively searching for their next home.
         </p>
@@ -47,7 +47,7 @@ const page = () => {
           For <span className="font-semibold">seekers</span>, meroSpace
           simplifies the search for your ideal space. Browse a variety of
           listings that suit your needs and budget, or post a detailed room
-          requirement, outlining exactly what you're looking for. This unique
+          requirement, outlining exactly what you are looking for. This unique
           feature allows uploaders to view your requirements and reach out if
           they have a room that matches.
         </p>
@@ -61,7 +61,7 @@ const page = () => {
         </p>
 
         <p className="mt-4 text-md md:text-md lg:text-md leading-relaxed text-center italic">
-          Whether you're posting a room or searching for one, meroSpace is here
+          Whether you are posting a room or searching for one, meroSpace is here
           to help you connect, communicate, and find the perfect space.
         </p>
       </div>
