@@ -14,7 +14,7 @@ type TestimonialData = {
   name: string;
   testimonial: string;
   imageUrl: string;
-  country: string;
+  location: string;
 };
 
 export default function Testimonial() {
@@ -88,7 +88,7 @@ export default function Testimonial() {
                         {item.name}
                       </CardDescription>
                       <CardDescription className="text-gray-600 text-sm">
-                        {item.country}
+                        {item.location}
                       </CardDescription>
                     </CardHeader>
                   </Card>
