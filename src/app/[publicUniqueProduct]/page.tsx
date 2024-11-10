@@ -109,7 +109,7 @@ const Page = () => {
       {data.map((item) => {
         const combinedImageUrls = [item.imageUrl, ...item.imageUrls];
         return (
-          <div key={item.id} className="p-3 clearfix">
+          <div key={item.id} className="p-2 clearfix">
             <Carousel
               key={item.unique_id}
               plugins={[plugin.current]}
@@ -119,7 +119,7 @@ const Page = () => {
               <CarouselContent>
                 {combinedImageUrls.map((imageUrl, index) => (
                   <CarouselItem key={index}>
-                    <div className="w-full h-[70vh] overflow-hidden flex items-center justify-center">
+                    <div className="w-full h-[30vh] sm:h-[70vh] overflow-hidden flex items-center justify-center">
                       <div className="w-full h-full">
                         <CardContent className="h-full flex items-center justify-center">
                           <img
