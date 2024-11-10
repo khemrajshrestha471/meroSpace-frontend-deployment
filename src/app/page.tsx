@@ -2,6 +2,7 @@ import LandingPage from "@/components/landingPage/LandingPage"
 import Products from "@/components/products/Products"
 import Faqs from "@/components/faqs/Faqs"
 import Testimonial from "@/components/testimonial/Testimonial"
+import AboutUs from "@/components/about-us/AboutUs"
 
 
 const page = () => {
@@ -11,6 +12,7 @@ const page = () => {
       <Products />
       <Faqs />
       <Testimonial />
+      <AboutUs />
     </div>
   )
 }

@@ -331,6 +331,7 @@ import LandingPage from "@/components/landingPage/LandingPage";
 import Products from "@/components/products/Products";
 import Faqs from "@/components/faqs/Faqs";
 import Testimonial from "@/components/testimonial/Testimonial";
+import AboutUs from "@/components/about-us/AboutUs";
 
 const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
@@ -440,6 +441,7 @@ const Page = () => {
     <Products />
     <Faqs />
     <Testimonial />
+    <AboutUs />
     </>
   );
 };
