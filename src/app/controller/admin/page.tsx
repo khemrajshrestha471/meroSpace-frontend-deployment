@@ -1,8 +1,12 @@
-import React from 'react'
+import Navbar from "@/admin-components/Navbar/Navbar"
+import Login from "@/admin-components/Login/Login"
 
 const page = () => {
   return (
-    <div>Admin Page</div>
+    <>
+    <Navbar />
+    <Login />
+    </>
   )
 }
 
