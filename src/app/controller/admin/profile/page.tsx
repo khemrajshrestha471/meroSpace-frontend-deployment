@@ -73,7 +73,7 @@ const Page = () => {
     const isFirstRender = localStorage.getItem("firstRender");
     if (isFirstRender) {
       // Refresh the page
-      window.location.reload();
+      // window.location.reload();
 
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
@@ -96,35 +96,35 @@ const Page = () => {
         if (decodedToken && decodedToken.exp) {
           setExpiryTime(decodedToken.exp);
         }
-        if (decodedToken && decodedToken.username && decodedToken.userId) {
-          // Redirect to the URL format with query params if not already there
-          const queryParams = new URLSearchParams(window.location.search);
-          const u_id = queryParams.get("Id") || "";
-          setIsUserId(u_id);
-          // Check if the query parameters already exist in the URL
+        // if (decodedToken && decodedToken.username && decodedToken.userId) {
+        //   // Redirect to the URL format with query params if not already there
+        //   const queryParams = new URLSearchParams(window.location.search);
+        //   const u_id = queryParams.get("Id") || "";
+        //   setIsUserId(u_id);
+        //   // Check if the query parameters already exist in the URL
 
-          const urlUsername = queryParams.get("username") || "";
-          const urlRole = queryParams.get("role") || "";
-          const urlId = queryParams.get("Id") || "";
-          if (
-            !queryParams.has("username") ||
-            !queryParams.has("role") ||
-            !queryParams.has("Id") ||
-            urlUsername !== decodedToken.username ||
-            urlRole !== decodedToken.role ||
-            urlId !== decodedToken.userId
-          ) {
-            router.push(
-              `/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-            );
-          }
-        }
+        //   const urlUsername = queryParams.get("username") || "";
+        //   const urlRole = queryParams.get("role") || "";
+        //   const urlId = queryParams.get("Id") || "";
+        //   if (
+        //     !queryParams.has("username") ||
+        //     !queryParams.has("role") ||
+        //     !queryParams.has("Id") ||
+        //     urlUsername !== decodedToken.username ||
+        //     urlRole !== decodedToken.role ||
+        //     urlId !== decodedToken.userId
+        //   ) {
+        //     router.push(
+        //       `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+        //     );
+        //   }
+        // }
 
         // const urlPath = window.location.pathname;
         // const roleFromPath = urlPath.split("-")[1].split("/")[0];
         // if (roleFromPath !== decodedToken.role) {
         //   router.push(
-        //     `/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+        //     `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
         //   );
         // }
         const fetchData = async () => {
@@ -333,7 +333,7 @@ const Page = () => {
       // Check if the response was successful
       if (response.ok) {
         await response.json();
-        window.location.reload();
+        // window.location.reload();
       } else {
         const error = await response.json();
         throw new Error(
@@ -361,7 +361,7 @@ const Page = () => {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.reload();
+          // window.location.reload();
           return response.json();
         } else {
           throw new Error("An unexpected error occurred. Please try again.");
@@ -465,7 +465,7 @@ const Page = () => {
                   )}
 
                   <Link
-                    href={`/admin/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
+                    href={`/controller/admin/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
                     className="text-white no-underline"
                   >
                     <Button type="button" variant="destructive">

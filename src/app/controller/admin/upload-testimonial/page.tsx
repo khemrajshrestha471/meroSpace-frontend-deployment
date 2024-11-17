@@ -25,7 +25,7 @@ const Page = () => {
     const isFirstRender = localStorage.getItem("firstRender");
     if (isFirstRender) {
       // Refresh the page
-      window.location.reload();
+      // window.location.reload();
 
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
@@ -48,29 +48,29 @@ const Page = () => {
         if (decodedToken && decodedToken.exp) {
           setExpiryTime(decodedToken.exp);
         }
-        if (decodedToken && decodedToken.username && decodedToken.userId) {
-          // Redirect to the URL format with query params if not already there
-          const queryParams = new URLSearchParams(window.location.search);
-          const u_id = queryParams.get("Id") || "";
-          setIsUserId(u_id);
-          // Check if the query parameters already exist in the URL
+        // if (decodedToken && decodedToken.username && decodedToken.userId) {
+        //   // Redirect to the URL format with query params if not already there
+        //   const queryParams = new URLSearchParams(window.location.search);
+        //   const u_id = queryParams.get("Id") || "";
+        //   setIsUserId(u_id);
+        //   // Check if the query parameters already exist in the URL
 
-          const urlUsername = queryParams.get("username") || "";
-          const urlRole = queryParams.get("role") || "";
-          const urlId = queryParams.get("Id") || "";
-          if (
-            !queryParams.has("username") ||
-            !queryParams.has("role") ||
-            !queryParams.has("Id") ||
-            urlUsername !== decodedToken.username ||
-            urlRole !== decodedToken.role ||
-            urlId !== decodedToken.userId
-          ) {
-            router.push(
-              `/admin/upload-testimonial?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-            );
-          }
-        }
+        //   const urlUsername = queryParams.get("username") || "";
+        //   const urlRole = queryParams.get("role") || "";
+        //   const urlId = queryParams.get("Id") || "";
+        //   if (
+        //     !queryParams.has("username") ||
+        //     !queryParams.has("role") ||
+        //     !queryParams.has("Id") ||
+        //     urlUsername !== decodedToken.username ||
+        //     urlRole !== decodedToken.role ||
+        //     urlId !== decodedToken.userId
+        //   ) {
+        //     router.push(
+        //       `/controller/admin/upload-testimonial?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+        //     );
+        //   }
+        // }
       } catch (error) {
         console.error("Error decoding token:", error);
         console.error("Token:", isDecodedToken)
