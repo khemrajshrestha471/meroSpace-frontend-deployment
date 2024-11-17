@@ -149,7 +149,7 @@ const Page = () => {
         });
       }
     } catch (error) {
-      toast.error("An error occurred while sending OTP.", {
+      toast.error(`An error occurred while sending OTP. ${error}`, {
         draggable: true,
         theme: "colored",
       });
@@ -179,7 +179,7 @@ const Page = () => {
         });
       }
     } catch (error) {
-      toast.error("An error occurred while verifying OTP.", {
+      toast.error(`An error occurred while verifying OTP. ${error}`, {
         draggable: true,
         theme: "colored",
       });

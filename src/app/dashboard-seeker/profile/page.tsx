@@ -238,7 +238,7 @@ const Page = () => {
         });
       }
     } catch (error) {
-      toast.error("An error occurred while sending OTP.", {
+      toast.error(`An error occurred while sending OTP. ${error}`, {
         draggable: true,
         theme: "colored",
       });
@@ -273,7 +273,7 @@ const Page = () => {
         });
       }
     } catch (error) {
-      toast.error("An error occurred while verifying OTP.", {
+      toast.error(`An error occurred while verifying OTP. ${error}`, {
         draggable: true,
         theme: "colored",
       });
@@ -338,8 +338,8 @@ const Page = () => {
           error?.message || "An unexpected error occurred. Please try again."
         );
       }
-    } catch (err: any) {
-      console.error("Error during data submission:", err);
+    } catch (error) {
+      console.error("Error during data submission:", error);
     }
     logOut();
   };
