@@ -87,8 +87,7 @@ const Page = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      // router.push("/");
-      alert("Failed1")
+      router.push("/");
     } else {
       try {
         const decodedToken = decodeToken(token);
@@ -145,10 +144,9 @@ const Page = () => {
   
           fetchData();
       } catch (error) {
-        console.error("Error decoding token:", error);
+        alert(`${error}`);
         // In case of an invalid token, redirect to login
         // router.push("/");
-        alert("Failed2")
       }
     }
   }, [router, isUserId]);
@@ -161,8 +159,7 @@ const Page = () => {
       if (expiryTime < currentTime) {
         // If token is expired, redirect to login
         localStorage.removeItem("token");
-        // router.push("/");
-        alert("Failed3")
+        router.push("/");
       }
     }
   }, [expiryTime, router]);
