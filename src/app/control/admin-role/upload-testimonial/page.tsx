@@ -67,7 +67,7 @@ const Page = () => {
             urlId !== decodedToken.userId
           ) {
             router.push(
-              `/controller/admin/upload-testimonial?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+              `/control/admin-role/upload-testimonial?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
             );
           }
         }

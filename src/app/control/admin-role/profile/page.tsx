@@ -115,7 +115,7 @@ const Page = () => {
             urlId !== decodedToken.userId
           ) {
             router.push(
-              `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+              `/control/admin-role/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
             );
           }
         }
@@ -124,7 +124,7 @@ const Page = () => {
         const roleFromPath = urlPath.split("-")[1].split("/")[0];
         if (roleFromPath !== decodedToken.role) {
           router.push(
-            `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+            `/control/admin-role/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
           );
         }
         const fetchData = async () => {
@@ -465,7 +465,7 @@ const Page = () => {
                   )}
 
                   <Link
-                    href={`/controller/admin/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
+                    href={`/control/admin-role/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
                     className="text-white no-underline"
                   >
                     <Button type="button" variant="destructive">

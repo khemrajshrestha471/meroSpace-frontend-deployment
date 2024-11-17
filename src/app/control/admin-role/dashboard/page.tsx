@@ -61,7 +61,7 @@ const Page = () => {
             urlId !== decodedToken.userId
           ) {
             router.push(
-              `/controller/admin/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+              `/control/admin-role/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
             );
           }
         }
@@ -70,7 +70,7 @@ const Page = () => {
         const roleFromPath = urlPath.split("-")[1];
         if (roleFromPath !== decodedToken.role) {
           router.push(
-            `/controller/admin/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+            `/control/admin-role/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
           );
         }
       } catch (error) {
