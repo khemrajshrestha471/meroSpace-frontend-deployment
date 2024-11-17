@@ -120,13 +120,13 @@ const Page = () => {
           }
         }
 
-        const urlPath = window.location.pathname;
-        const roleFromPath = urlPath.split("-")[1].split("/")[0];
-        if (roleFromPath !== decodedToken.role) {
-          router.push(
-            `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-          );
-        }
+        // const urlPath = window.location.pathname;
+        // const roleFromPath = urlPath.split("-")[1].split("/")[0];
+        // if (roleFromPath !== decodedToken.role) {
+        //   router.push(
+        //     `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+        //   );
+        // }
         const fetchData = async () => {
             if (!isUserId) {
               return;
@@ -144,9 +144,9 @@ const Page = () => {
   
           fetchData();
       } catch (error) {
-        alert(`${error}`);
+        console.error("Error decoding token:", error);
         // In case of an invalid token, redirect to login
-        // router.push("/");
+        router.push("/");
       }
     }
   }, [router, isUserId]);
