@@ -144,7 +144,7 @@ const Page = () => {
   return (
     <>
       <Navbar />
-      <div className="p-4 w-full overflow-hidden">
+      <div className="w-full overflow-hidden pr-8 pt-4">
         <ul className="flex flex-wrap justify-center gap-4">
           {currentItems.map((item) => (
             <li
