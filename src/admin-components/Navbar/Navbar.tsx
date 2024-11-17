@@ -122,18 +122,6 @@ const Navbar = () => {
           ) : (
             <></>
           )}
-          {/* <li className="nav-item">
-                {role === "admin" ? (
-                  <a
-                    className="nav-link active"
-                    href={`/controller/admin/dashboard?username=${username}&role=${role}&Id=${id}`}
-                  >
-                    Dashboard
-                  </a>
-                ) : (
-                  <></>
-                )}
-              </li> */}
         </ul>
         <button
           className="navbar-toggler"
