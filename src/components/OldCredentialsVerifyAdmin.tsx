@@ -49,16 +49,6 @@ const OldCredentialsVerifyAdmin = () => {
   const [showNewPasswordField, setShowNewPasswordField] = useState(false);
   const [userId, setUserId] = useState("");
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
-      draggable: true,
-      theme: "colored",
-      position: "top-center",
-      bodyClassName: 'text-sm',
-    });
-    form.reset();
-  }
-
   const PreviousCredentialsNotMatch = () => {
     toast.error("Previous Credentials did not match.", {
       draggable: true,
@@ -79,9 +69,9 @@ const OldCredentialsVerifyAdmin = () => {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    let username = data.username;
-    let email = data.email;
-    let p_number = data.p_number;
+    const username = data.username;
+    const email = data.email;
+    const p_number = data.p_number;
 
     fetch(`https://mero-space-backend-deployment.vercel.app/verify-admin-old-credentials`, {
       method: "POST",

@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 import Navbar from "@/admin-components/Navbar/Navbar";
@@ -11,15 +11,15 @@ interface DecodedToken {
   userId: string;
 }
 
-const page = () => {
-  const pathname = usePathname();
+const Page = () => {
+  // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
-  const [isUserIdJwt, setIsUserIdJwt] = useState("");
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  // const [isUserIdJwt, setIsUserIdJwt] = useState("");
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
-  const [currentPath, setCurrentPath] = useState("");
+  // const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
     const isFirstRender = localStorage.getItem("firstRender");
@@ -30,7 +30,7 @@ const page = () => {
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
     }
-    setCurrentPath(pathname.split("/").slice(-1)[0]);
+    // setCurrentPath(pathname.split("/").slice(-1)[0]);
   }, []);
   const router = useRouter();
 
@@ -44,7 +44,7 @@ const page = () => {
       try {
         const decodedToken = decodeToken(token);
         setIsDecodedToken(decodedToken);
-        setIsUserIdJwt(decodedToken.userId);
+        // setIsUserIdJwt(decodedToken.userId);
         if (decodedToken && decodedToken.exp) {
           setExpiryTime(decodedToken.exp);
         }
@@ -72,7 +72,8 @@ const page = () => {
           }
         }
       } catch (error) {
-        // alert(`Error decoding token: ${error}`);
+        console.error("Error decoding token:", error);
+        console.error("Token:", isDecodedToken)
         // In case of an invalid token, redirect to login
         router.push("/");
       }
@@ -102,4 +103,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -58,11 +58,11 @@ const ChangePasswordAdmin = () => {
   }, [isUserIdJwt]);
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState: any) => !prevState);
+    setShowPassword((prevState: boolean) => !prevState);
   };
 
   const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prevState: any) => !prevState);
+    setShowConfirmPassword((prevState: boolean) => !prevState);
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -114,8 +114,8 @@ const ChangePasswordAdmin = () => {
           UnexpectedError();
         }
       })
-      .catch((err) => {
-        UnexpectedError();
+      .catch((error) => {
+        console.error("Error: ", error)
       });
     form.reset();
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,10 +15,7 @@ import Navbar from "@/admin-components/Navbar/Navbar"
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
-  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
@@ -53,7 +50,7 @@ interface DecodedToken {
   userId: string;
 }
 
-const page = () => {
+const Page = () => {
   const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
@@ -62,7 +59,7 @@ const page = () => {
   const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
-  const [currentPath, setCurrentPath] = useState("");
+  // const [currentPath, setCurrentPath] = useState("");
 
   const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -81,7 +78,7 @@ const page = () => {
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
     }
-    setCurrentPath(pathname.split("/").slice(-1)[0]);
+    // setCurrentPath(pathname.split("/").slice(-1)[0]);
   }, []);
   const router = useRouter();
 
@@ -147,7 +144,7 @@ const page = () => {
   
           fetchData();
       } catch (error) {
-        // alert(`Error decoding token: ${error}`);
+        console.error("Error decoding token:", error);
         // In case of an invalid token, redirect to login
         router.push("/");
       }
@@ -237,7 +234,7 @@ const page = () => {
         });
       }
     } catch (error) {
-      toast.error("An error occurred while sending OTP.", {
+      toast.error(`An error occurred while sending OTP. ${error}`, {
         draggable: true,
         theme: "colored",
       });
@@ -269,7 +266,7 @@ const page = () => {
         });
       }
     } catch (error) {
-      toast.error("An error occurred while verifying OTP.", {
+      toast.error(`An error occurred while verifying OTP. ${error}`, {
         draggable: true,
         theme: "colored",
       });
@@ -343,8 +340,8 @@ const page = () => {
           error?.message || "An unexpected error occurred. Please try again."
         );
       }
-    } catch (err: any) {
-      console.error("Error during data submission:", err);
+    } catch (error) {
+      console.error("Error during data submission:", error);
     }
     logOut();
   };
@@ -522,4 +519,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

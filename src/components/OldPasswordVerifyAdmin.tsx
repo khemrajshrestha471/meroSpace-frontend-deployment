@@ -21,7 +21,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
@@ -41,7 +40,7 @@ const OldPasswordVerifyAdmin = () => {
   }, [isUserIdJwt]);
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState: any) => !prevState);
+    setShowPassword((prevState: boolean) => !prevState);
   };
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -72,7 +71,7 @@ const OldPasswordVerifyAdmin = () => {
   }
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    let previous_password = data.previous_password;
+    const previous_password = data.previous_password;
 
     if (
       previous_password.length < 8 ||
@@ -103,8 +102,8 @@ const OldPasswordVerifyAdmin = () => {
           return;
         }
       })
-      .catch((err) => {
-        UnexpectedError();
+      .catch((error) => {
+        console.error("Error: ", error)
       });
 
     form.reset();
