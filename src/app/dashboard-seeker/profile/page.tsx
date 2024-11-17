@@ -297,6 +297,12 @@ const Page = () => {
 
       if (response.status === 200) {
         handleSendEmailOTP(data);
+      } else if (response.status === 400) {
+        toast.error("This email is already registered. Try another!", {
+          draggable: true,
+          theme: "colored",
+        });
+        return;
       } else {
         onSubmit(data);
       }
