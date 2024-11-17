@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Image from "next/image";
 import { decodeToken } from "@/components/utils/decodeToken.js";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -65,16 +71,23 @@ const Page = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [email, setEmail] = useState("");
+  const [pendingUserData, setPendingUserData] = useState<z.infer<
+    typeof FormSchema
+  > | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if(token) {
+    if (token) {
       const decodedToken = decodeToken(token);
       router.push(
         `/dashboard-uploader?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
       );
     }
-  }, [router])
+  }, [router]);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState: boolean) => !prevState);
@@ -94,12 +107,15 @@ const Page = () => {
   });
 
   const RepeatEmailPhone = () => {
-    toast.error("Email or Phone Number already registered! Please use different credentials.", {
-      draggable: true,
-      theme: "colored",
-    });
+    toast.error(
+      "Email or Phone Number already registered! Please use different credentials.",
+      {
+        draggable: true,
+        theme: "colored",
+      }
+    );
     form.reset();
-  }
+  };
 
   const UnexpectedError = (error: string) => {
     toast.error(`An unexpected error occurred. ${error}`, {
@@ -107,33 +123,126 @@ const Page = () => {
       theme: "colored",
     });
     form.reset();
-  }
+  };
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { username, email, p_number, password } = data;
-  
+  const handleSendEmailOTP = async (data: z.infer<typeof FormSchema>) => {
+    setLoading(true);
     try {
-      const response = await fetch("https://mero-space-backend-deployment.vercel.app/register-as-uploader", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, p_number, password }),
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/send-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email }),
+        }
+      );
+
+      if (response.ok) {
+        setEmail(data.email);
+        setPendingUserData(data);
+        setIsOTPModalOpen(true);
+        setLoading(false);
+      } else {
+        toast.error("Failed to send OTP. Try again.", {
+          draggable: true,
+          theme: "colored",
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred while sending OTP.", {
+        draggable: true,
+        theme: "colored",
       });
-  
+    }
+  };
+
+  const handleVerifyEmailOTP = async () => {
+    try {
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
+
+      if (response.ok) {
+        setIsOTPModalOpen(false);
+        if (pendingUserData) {
+          await onSubmit(pendingUserData);
+        }
+      } else {
+        toast.error("OTP did not match.", {
+          draggable: true,
+          theme: "colored",
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred while verifying OTP.", {
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  };
+
+  const handleSubmit = form.handleSubmit(async (data) => {
+    const { email, p_number } = data;
+
+    try {
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/verify-repeat-credentials",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, p_number }),
+        }
+      );
+
+      if (response.status === 200) {
+        handleSendEmailOTP(data);
+      }
+
       if (response.status === 400) {
         RepeatEmailPhone();
         return;
       }
-  
+    } catch (error) {
+      UnexpectedError(error as string);
+      return;
+    }
+  });
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const { username, email, p_number, password } = data;
+
+    try {
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/register-as-uploader",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, email, p_number, password }),
+        }
+      );
+
+      if (response.status === 400) {
+        RepeatEmailPhone();
+        return;
+      }
+
       await response.json();
-  
+
       router.push("/login-as-uploader");
     } catch (error) {
       UnexpectedError(error as string);
       return;
     }
-    
+
     form.reset();
   }
 
@@ -154,10 +263,7 @@ const Page = () => {
       </div>
       <div className="flex justify-center items-center">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-2/3 space-y-6"
-          >
+          <form onSubmit={handleSubmit} className="w-2/3 space-y-6">
             <FormField
               control={form.control}
               name="username"
@@ -272,7 +378,18 @@ const Page = () => {
             />
 
             <div className="flex space-x-4">
-              <Button type="submit">Register</Button>
+              {loading ? (
+                <>
+                  <Button type="button" disabled>
+                    Sending OTP...
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button type="submit">Register</Button>
+                </>
+              )}
+
               <ToastContainer />
               <Button type="button" variant="destructive" onClick={handleClear}>
                 Clear
@@ -280,6 +397,25 @@ const Page = () => {
             </div>
           </form>
         </Form>
+        {isOTPModalOpen && (
+          <Dialog open={isOTPModalOpen} onOpenChange={setIsOTPModalOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Enter OTP</DialogTitle>
+              </DialogHeader>
+              <div>
+                <Input
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Verify OTP sent to your provided email"
+                />
+                <Button onClick={handleVerifyEmailOTP} className="mt-4">
+                  Verify OTP
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </div>
   );

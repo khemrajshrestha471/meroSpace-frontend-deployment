@@ -7,7 +7,9 @@ import { decodeToken } from "@/components/utils/decodeToken.js";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import OldPasswordVerifySeeker from "@/components/OldPasswordVerifySeeker"
+import OldPasswordVerifySeeker from "@/components/OldPasswordVerifySeeker";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +22,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -53,7 +61,13 @@ const Page = () => {
   const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
-  // const [currentPath, setCurrentPath] = useState("");
+  const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [email, setEmail] = useState("");
+  const [pendingUserData, setPendingUserData] = useState<z.infer<
+    typeof FormSchema
+  > | null>(null);
 
   useEffect(() => {
     const isFirstRender = localStorage.getItem("firstRender");
@@ -198,22 +212,155 @@ const Page = () => {
   const logOut = () => {
     localStorage.removeItem("token");
     router.push("/login-as-seeker");
-  }
+  };
+
+  const handleSendEmailOTP = async (data: z.infer<typeof FormSchema>) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/send-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email }),
+        }
+      );
+
+      if (response.ok) {
+        setEmail(data.email);
+        setPendingUserData(data);
+        setIsOTPModalOpen(true);
+        setLoading(false);
+      } else {
+        toast.error("Failed to send OTP. Try again.", {
+          draggable: true,
+          theme: "colored",
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred while sending OTP.", {
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  };
+
+  const handleVerifyEmailOTP = async () => {
+    // const handleVerifyEmailOTP = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
+
+      if (response.ok) {
+        setIsOTPModalOpen(false);
+        if (pendingUserData) {
+          finalDataSubmit(
+            pendingUserData.username,
+            pendingUserData.email,
+            pendingUserData.p_number
+          );
+        }
+      } else {
+        toast.error("OTP did not match.", {
+          draggable: true,
+          theme: "colored",
+        });
+      }
+    } catch (error) {
+      toast.error("An error occurred while verifying OTP.", {
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  };
+
+  const handleSubmit = form.handleSubmit(async (data) => {
+    const { email } = data;
+
+    try {
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/verify-changed-email-seeker",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      if (response.status === 200) {
+        handleSendEmailOTP(data);
+      } else {
+        onSubmit(data);
+      }
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+  });
+
+  const finalDataSubmit = async (
+    username: string,
+    email: string,
+    p_number: string
+  ) => {
+    try {
+      const response = await fetch(
+        `https://mero-space-backend-deployment.vercel.app/seeker-profile-modified/${isUserIdJwt}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            p_number: p_number,
+          }),
+        }
+      );
+
+      // Check if the response was successful
+      if (response.ok) {
+        await response.json();
+        window.location.reload();
+      } else {
+        const error = await response.json();
+        throw new Error(
+          error?.message || "An unexpected error occurred. Please try again."
+        );
+      }
+    } catch (err: any) {
+      console.error("Error during data submission:", err);
+    }
+    logOut();
+  };
 
   // function onSubmit(data: z.infer<typeof FormSchema>, item: UploaderData) {
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    fetch(`https://mero-space-backend-deployment.vercel.app/seeker-profile-modified/${isUserIdJwt}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: data.username,
-        email: data.email,
-        p_number: data.p_number,
-      }),
-    })
+    fetch(
+      `https://mero-space-backend-deployment.vercel.app/seeker-profile-modified/${isUserIdJwt}`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.username,
+          email: data.email,
+          p_number: data.p_number,
+        }),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           window.location.reload();
@@ -225,7 +372,6 @@ const Page = () => {
       .catch((err) => {
         alert(err.message);
       });
-    form.reset();
     logOut();
   }
 
@@ -256,14 +402,7 @@ const Page = () => {
         <div className="flex justify-center items-center">
           {data.map((item) => (
             <Form {...form} key={item._id.toString()}>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  // form.handleSubmit((data) => onSubmit(data, item))(e);
-                  form.handleSubmit((data) => onSubmit(data))(e);
-                }}
-                className="w-2/3 space-y-6"
-              >
+              <form onSubmit={handleSubmit} className="w-2/3 space-y-6">
                 <FormField
                   control={form.control}
                   name="username"
@@ -334,23 +473,53 @@ const Page = () => {
                   )}
                 />
 
-                
-
                 <div className="flex space-x-4 mb-4">
-                  <Button type="submit">Update</Button>
+                  {loading ? (
+                    <>
+                      <Button type="button" disabled>
+                        Sending OTP...
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button type="submit">Update</Button>
+                    </>
+                  )}
+
                   <Link
-                    href={`/dashboard-uploader/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
+                    href={`/dashboard-seeker/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
                     className="text-white no-underline"
                   >
                     <Button type="button" variant="destructive">
                       Cancel
                     </Button>
                   </Link>
+
+                  <ToastContainer />
                 </div>
               </form>
             </Form>
           ))}
         </div>
+        {isOTPModalOpen && (
+          <Dialog open={isOTPModalOpen} onOpenChange={setIsOTPModalOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Enter OTP</DialogTitle>
+              </DialogHeader>
+              <div>
+                <Input
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Verify OTP sent to your provided email"
+                />
+                <Button onClick={handleVerifyEmailOTP} className="mt-4">
+                  Verify OTP
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
         <div className="flex">
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -361,7 +530,7 @@ const Page = () => {
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>
-                <OldPasswordVerifySeeker />
+                  <OldPasswordVerifySeeker />
                 </AlertDialogTitle>
               </AlertDialogHeader>
             </AlertDialogContent>
