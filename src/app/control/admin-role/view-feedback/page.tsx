@@ -13,7 +13,7 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
+  // PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -74,6 +74,7 @@ const Page = () => {
       }
     } catch (error) {
       console.error("Error decoding token:", error);
+      console.error("Token:", isDecodedToken);
       localStorage.removeItem("token");
       router.push("/");
     }
