@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 
 // Dynamically import components
@@ -16,16 +16,19 @@ export default function ClientWrapper({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   // Check if the current route is for admin
-  const isAdminPage = pathname.startsWith("/control/admin-role");
+  // const isAdminPage = pathname.startsWith("/control/admin-role");
 
   return (
     <>
-      {!isAdminPage && <DynamicNavbar />}
+      {/* {!isAdminPage && <DynamicNavbar />}
       {children}
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && <Footer />} */}
+      <DynamicNavbar />
+      {children}
+      <Footer />
     </>
   );
 }
