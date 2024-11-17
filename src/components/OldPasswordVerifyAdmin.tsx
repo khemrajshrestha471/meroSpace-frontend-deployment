@@ -50,16 +50,6 @@ const OldPasswordVerifyAdmin = () => {
     },
   });
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
-      draggable: true,
-      theme: "colored",
-      position: "top-center",
-      bodyClassName: 'text-sm',
-    });
-    form.reset();
-  }
-
   const PreviousPasswordNotMatch = () => {
     toast.error("Previous Password did not match.", {
       draggable: true,

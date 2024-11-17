@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
 
@@ -51,7 +51,7 @@ interface DecodedToken {
 }
 
 const Page = () => {
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   const [isUserIdJwt, setIsUserIdJwt] = useState("");
