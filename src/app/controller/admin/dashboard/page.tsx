@@ -13,7 +13,7 @@ interface DecodedToken {
 
 const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
-  // const [isUserId, setIsUserId] = useState("");
+  const [isUserId, setIsUserId] = useState("");
   const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
@@ -22,7 +22,7 @@ const Page = () => {
     const isFirstRender = localStorage.getItem("firstRender");
     if (isFirstRender) {
       // Refresh the page
-      // window.location.reload();
+      window.location.reload();
 
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
@@ -43,36 +43,36 @@ const Page = () => {
         if (decodedToken && decodedToken.exp) {
           setExpiryTime(decodedToken.exp);
         }
-        // if (decodedToken && decodedToken.username && decodedToken.userId) {
-        //   const queryParams = new URLSearchParams(window.location.search);
-        //   const u_id = queryParams.get("Id") || "";
-        //   setIsUserId(u_id);
+        if (decodedToken && decodedToken.username && decodedToken.userId) {
+          const queryParams = new URLSearchParams(window.location.search);
+          const u_id = queryParams.get("Id") || "";
+          setIsUserId(u_id);
 
-        //   // Check if the query parameters already exist in the URL
-        //   const urlUsername = queryParams.get("username") || "";
-        //   const urlRole = queryParams.get("role") || "";
-        //   const urlId = queryParams.get("Id") || "";
-        //   if (
-        //     !queryParams.has("username") ||
-        //     !queryParams.has("role") ||
-        //     !queryParams.has("Id") ||
-        //     urlUsername !== decodedToken.username ||
-        //     urlRole !== decodedToken.role ||
-        //     urlId !== decodedToken.userId
-        //   ) {
-        //     router.push(
-        //       `/controller/admin/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-        //     );
-        //   }
-        // }
+          // Check if the query parameters already exist in the URL
+          const urlUsername = queryParams.get("username") || "";
+          const urlRole = queryParams.get("role") || "";
+          const urlId = queryParams.get("Id") || "";
+          if (
+            !queryParams.has("username") ||
+            !queryParams.has("role") ||
+            !queryParams.has("Id") ||
+            urlUsername !== decodedToken.username ||
+            urlRole !== decodedToken.role ||
+            urlId !== decodedToken.userId
+          ) {
+            router.push(
+              `/controller/admin/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+            );
+          }
+        }
 
-        // const urlPath = window.location.pathname;
-        // const roleFromPath = urlPath.split("-")[1];
-        // if (roleFromPath !== decodedToken.role) {
-        //   router.push(
-        //     `/controller/admin/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-        //   );
-        // }
+        const urlPath = window.location.pathname;
+        const roleFromPath = urlPath.split("-")[1];
+        if (roleFromPath !== decodedToken.role) {
+          router.push(
+            `/controller/admin/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+          );
+        }
       } catch (error) {
         console.error("Error decoding token:", error);
         console.error("Token:", isDecodedToken);
@@ -89,8 +89,7 @@ const Page = () => {
         router.push("/");
       }
     }
-  // }, [router, isUserId]);
-  }, [router]);
+  }, [router, isUserId]);
 
   return (
     <>

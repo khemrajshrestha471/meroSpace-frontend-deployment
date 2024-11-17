@@ -53,7 +53,7 @@ interface DecodedToken {
 const Page = () => {
   // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
-  // const [isUserId, setIsUserId] = useState("");
+  const [isUserId, setIsUserId] = useState("");
   const [isUserIdJwt, setIsUserIdJwt] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
   const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
@@ -73,7 +73,7 @@ const Page = () => {
     const isFirstRender = localStorage.getItem("firstRender");
     if (isFirstRender) {
       // Refresh the page
-      // window.location.reload();
+      window.location.reload();
 
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
@@ -96,41 +96,41 @@ const Page = () => {
         if (decodedToken && decodedToken.exp) {
           setExpiryTime(decodedToken.exp);
         }
-        // if (decodedToken && decodedToken.username && decodedToken.userId) {
-        //   // Redirect to the URL format with query params if not already there
-        //   const queryParams = new URLSearchParams(window.location.search);
-        //   const u_id = queryParams.get("Id") || "";
-        //   setIsUserId(u_id);
-        //   // Check if the query parameters already exist in the URL
+        if (decodedToken && decodedToken.username && decodedToken.userId) {
+          // Redirect to the URL format with query params if not already there
+          const queryParams = new URLSearchParams(window.location.search);
+          const u_id = queryParams.get("Id") || "";
+          setIsUserId(u_id);
+          // Check if the query parameters already exist in the URL
 
-        //   const urlUsername = queryParams.get("username") || "";
-        //   const urlRole = queryParams.get("role") || "";
-        //   const urlId = queryParams.get("Id") || "";
-        //   if (
-        //     !queryParams.has("username") ||
-        //     !queryParams.has("role") ||
-        //     !queryParams.has("Id") ||
-        //     urlUsername !== decodedToken.username ||
-        //     urlRole !== decodedToken.role ||
-        //     urlId !== decodedToken.userId
-        //   ) {
-        //     router.push(
-        //       `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-        //     );
-        //   }
-        // }
+          const urlUsername = queryParams.get("username") || "";
+          const urlRole = queryParams.get("role") || "";
+          const urlId = queryParams.get("Id") || "";
+          if (
+            !queryParams.has("username") ||
+            !queryParams.has("role") ||
+            !queryParams.has("Id") ||
+            urlUsername !== decodedToken.username ||
+            urlRole !== decodedToken.role ||
+            urlId !== decodedToken.userId
+          ) {
+            router.push(
+              `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+            );
+          }
+        }
 
-        // const urlPath = window.location.pathname;
-        // const roleFromPath = urlPath.split("-")[1].split("/")[0];
-        // if (roleFromPath !== decodedToken.role) {
-        //   router.push(
-        //     `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-        //   );
-        // }
+        const urlPath = window.location.pathname;
+        const roleFromPath = urlPath.split("-")[1].split("/")[0];
+        if (roleFromPath !== decodedToken.role) {
+          router.push(
+            `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+          );
+        }
         const fetchData = async () => {
-            // if (!isUserId) {
-            //   return;
-            // }
+            if (!isUserId) {
+              return;
+            }
             try {
               const response = await fetch(
                 `https://mero-space-backend-deployment.vercel.app/get-admin-profile/${isUserIdJwt}`
@@ -149,8 +149,7 @@ const Page = () => {
         router.push("/");
       }
     }
-  // }, [router, isUserId]);
-  }, [router]);
+  }, [router, isUserId]);
 
   // Check if the token has expired
   useEffect(() => {
@@ -334,7 +333,7 @@ const Page = () => {
       // Check if the response was successful
       if (response.ok) {
         await response.json();
-        // window.location.reload();
+        window.location.reload();
       } else {
         const error = await response.json();
         throw new Error(
@@ -362,7 +361,7 @@ const Page = () => {
     })
       .then((response) => {
         if (response.ok) {
-          // window.location.reload();
+          window.location.reload();
           return response.json();
         } else {
           throw new Error("An unexpected error occurred. Please try again.");
