@@ -10,7 +10,7 @@ import { z } from "zod";
 import OldPasswordVerifyAdmin from "@/components/OldPasswordVerifyAdmin";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Navbar from "@/admin-components/Navbar/Navbar"
+import Navbar from "@/admin-components/Navbar/Navbar"
 
 import { Button } from "@/components/ui/button";
 import {
@@ -375,7 +375,7 @@ const Page = () => {
 
   return (
     <>
-    {/* <Navbar /> */}
+    <Navbar />
       <div className="grid grid-cols-[8fr_1fr]">
         <div className="flex justify-center items-center">
           {data.map((item) => (

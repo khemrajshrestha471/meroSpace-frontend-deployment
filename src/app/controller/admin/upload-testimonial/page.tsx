@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
-// import Navbar from "@/admin-components/Navbar/Navbar";
+import Navbar from "@/admin-components/Navbar/Navbar";
 
 interface DecodedToken {
   username: string;
@@ -95,7 +95,7 @@ const Page = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <p>Create form to upload testimonial</p>
       <p>Also below form, there should be all testimonial listed and admin can delete particular testimonial</p>
       <p>Does edit necessary in testimonial? Think....</p>

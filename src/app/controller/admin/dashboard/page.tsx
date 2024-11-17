@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
-// import Navbar from "@/admin-components/Navbar/Navbar"
+import Navbar from "@/admin-components/Navbar/Navbar"
 
 interface DecodedToken {
   username: string;
@@ -93,7 +93,7 @@ const Page = () => {
 
   return (
     <>
-    {/* <Navbar /> */}
+    <Navbar />
     <h1>Admin Dashboard</h1>
     <p>Make proper dashboard so that admin can see total uploader and seeker till the date with something graph</p>
     </>

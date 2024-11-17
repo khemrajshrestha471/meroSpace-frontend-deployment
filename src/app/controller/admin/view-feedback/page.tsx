@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
-// import Navbar from "@/admin-components/Navbar/Navbar";
+import Navbar from "@/admin-components/Navbar/Navbar";
 
 interface DecodedToken {
   username: string;
@@ -143,7 +143,7 @@ const Page = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div className="p-4 w-full overflow-hidden">
         <ul className="flex flex-wrap justify-center gap-4">
           {currentItems.map((item) => (
