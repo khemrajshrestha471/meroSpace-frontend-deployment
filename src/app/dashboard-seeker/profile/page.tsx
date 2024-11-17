@@ -285,7 +285,7 @@ const Page = () => {
 
     try {
       const response = await fetch(
-        "https://mero-space-backend-deployment.vercel.app/verify-changed-email-seeker",
+        `https://mero-space-backend-deployment.vercel.app/verify-changed-email-seeker/${isUserIdJwt}`,
         {
           method: "POST",
           headers: {
@@ -303,7 +303,10 @@ const Page = () => {
           theme: "colored",
         });
         return;
-      } else {
+      } else if (response.status === 201) {
+        onSubmit(data);
+      } 
+      else {
         onSubmit(data);
       }
     } catch (error) {
