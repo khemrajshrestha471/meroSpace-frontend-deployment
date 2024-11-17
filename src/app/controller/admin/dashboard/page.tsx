@@ -13,7 +13,7 @@ interface DecodedToken {
 
 const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
-  const [isUserId, setIsUserId] = useState("");
+  // const [isUserId, setIsUserId] = useState("");
   const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
@@ -89,7 +89,8 @@ const Page = () => {
         router.push("/");
       }
     }
-  }, [router, isUserId]);
+  // }, [router, isUserId]);
+  }, [router]);
 
   return (
     <>

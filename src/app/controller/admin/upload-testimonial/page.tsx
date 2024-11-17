@@ -14,7 +14,7 @@ interface DecodedToken {
 const Page = () => {
   // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
-  const [isUserId, setIsUserId] = useState("");
+  // const [isUserId, setIsUserId] = useState("");
   // const [isUserIdJwt, setIsUserIdJwt] = useState("");
   const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
@@ -78,7 +78,8 @@ const Page = () => {
         router.push("/");
       }
     }
-  }, [router, isUserId]);
+  // }, [router, isUserId]);
+  }, [router]);
 
   // Check if the token has expired
   useEffect(() => {

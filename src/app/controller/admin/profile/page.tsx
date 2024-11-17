@@ -53,7 +53,7 @@ interface DecodedToken {
 const Page = () => {
   // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
-  const [isUserId, setIsUserId] = useState("");
+  // const [isUserId, setIsUserId] = useState("");
   const [isUserIdJwt, setIsUserIdJwt] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
   const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
@@ -128,9 +128,9 @@ const Page = () => {
         //   );
         // }
         const fetchData = async () => {
-            if (!isUserId) {
-              return;
-            }
+            // if (!isUserId) {
+            //   return;
+            // }
             try {
               const response = await fetch(
                 `https://mero-space-backend-deployment.vercel.app/get-admin-profile/${isUserIdJwt}`
@@ -149,7 +149,8 @@ const Page = () => {
         router.push("/");
       }
     }
-  }, [router, isUserId]);
+  // }, [router, isUserId]);
+  }, [router]);
 
   // Check if the token has expired
   useEffect(() => {
