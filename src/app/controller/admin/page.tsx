@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "@/admin-components/Navbar/Navbar"
 import Login from "@/admin-components/Login/Login"
 
