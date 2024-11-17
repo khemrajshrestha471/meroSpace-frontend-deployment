@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import dynamic from "next/dynamic";
-// import Navbar from "@/components/Navbar";
-const DynamicNavbar = dynamic(() => import('@/components/Navbar'), {
-  ssr: false, // This prevents server-side rendering for this component
-});
-const Footer = dynamic(() => import('@/components/footer/Footer'), {
-  ssr: false, // This prevents server-side rendering for this component
-});
+import ClientWrapper from "./ClientWrapper"; // Import the client-side wrapper component
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -35,9 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <DynamicNavbar />
-        {children}
-        <Footer />
+        <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>
   );
