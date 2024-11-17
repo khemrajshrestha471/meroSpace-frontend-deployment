@@ -18,23 +18,20 @@ const Page = () => {
     null
   );
 
-  const router = useRouter();
-
-  // Perform client-only initialization
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isFirstRender = localStorage.getItem("firstRender");
-      if (isFirstRender) {
-        // Refresh the page
-        window.location.reload();
-        localStorage.removeItem("firstRender");
-      }
+    const isFirstRender = localStorage.getItem("firstRender");
+    if (isFirstRender) {
+      // Refresh the page
+      window.location.reload();
+
+      // Remove the flag to prevent future refreshes
+      localStorage.removeItem("firstRender");
     }
   }, []);
+  const router = useRouter();
 
   // Check if the user is authenticated
   useEffect(() => {
-    if (typeof window !== "undefined") {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -92,8 +89,7 @@ const Page = () => {
         router.push("/");
       }
     }
-  }
-  }, [router, expiryTime, isUserId]);
+  }, [router, isUserId]);
 
   return (
     <>
