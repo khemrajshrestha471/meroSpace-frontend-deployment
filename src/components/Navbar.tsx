@@ -57,7 +57,7 @@ const Navbar = () => {
   const handleLogOut = async () => {
     try {
       // const response = await fetch("https://mero-space.vercel.app/logout", {
-      const response = await fetch("https://mero-space-backend-deployment.vercel.app/logout/logout", {
+      const response = await fetch("https://mero-space-backend-deployment.vercel.app/logout", {
         method: "POST",
         credentials: "include",
       });
