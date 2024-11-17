@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
-import Navbar from "@/admin-components/Navbar/Navbar"
+import Navbar from "@/admin-components/Navbar/Navbar";
 
 interface DecodedToken {
   username: string;
@@ -12,11 +12,14 @@ interface DecodedToken {
 }
 
 const Page = () => {
+  // const pathname = usePathname();
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
+  // const [isUserIdJwt, setIsUserIdJwt] = useState("");
   const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
+  // const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
     const isFirstRender = localStorage.getItem("firstRender");
@@ -27,6 +30,7 @@ const Page = () => {
       // Remove the flag to prevent future refreshes
       localStorage.removeItem("firstRender");
     }
+    // setCurrentPath(pathname.split("/").slice(-1)[0]);
   }, []);
   const router = useRouter();
 
@@ -40,15 +44,17 @@ const Page = () => {
       try {
         const decodedToken = decodeToken(token);
         setIsDecodedToken(decodedToken);
+        // setIsUserIdJwt(decodedToken.userId);
         if (decodedToken && decodedToken.exp) {
           setExpiryTime(decodedToken.exp);
         }
         if (decodedToken && decodedToken.username && decodedToken.userId) {
+          // Redirect to the URL format with query params if not already there
           const queryParams = new URLSearchParams(window.location.search);
           const u_id = queryParams.get("Id") || "";
           setIsUserId(u_id);
-
           // Check if the query parameters already exist in the URL
+
           const urlUsername = queryParams.get("username") || "";
           const urlRole = queryParams.get("role") || "";
           const urlId = queryParams.get("Id") || "";
@@ -61,41 +67,38 @@ const Page = () => {
             urlId !== decodedToken.userId
           ) {
             router.push(
-              `/control/admin-role/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+              `check1/test2/upload-testimonial?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
             );
           }
         }
-
-        const urlPath = window.location.pathname;
-        const roleFromPath = urlPath.split("-")[1];
-        if (roleFromPath !== decodedToken.role) {
-          router.push(
-            `/control/admin-role/dashboard?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-          );
-        }
       } catch (error) {
         console.error("Error decoding token:", error);
-        console.error("Token:", isDecodedToken);
-
+        console.error("Token:", isDecodedToken)
         // In case of an invalid token, redirect to login
-        router.push("/");
-      }
-    }
-    // Token expiry check
-    if (expiryTime > 0) {
-      const currentTime = Date.now() / 1000;
-      if (expiryTime < currentTime) {
-        localStorage.removeItem("token");
         router.push("/");
       }
     }
   }, [router, isUserId]);
 
+  // Check if the token has expired
+  useEffect(() => {
+    if (expiryTime > 0) {
+      const currentTime = Date.now() / 1000;
+
+      if (expiryTime < currentTime) {
+        // If token is expired, redirect to login
+        localStorage.removeItem("token");
+        router.push("/");
+      }
+    }
+  }, [expiryTime, router]);
+
   return (
     <>
-    <Navbar />
-    <h1>Admin Dashboard</h1>
-    <p>Make proper dashboard so that admin can see total uploader and seeker till the date with something graph</p>
+      <Navbar />
+      <p>Create form to upload testimonial</p>
+      <p>Also below form, there should be all testimonial listed and admin can delete particular testimonial</p>
+      <p>Does edit necessary in testimonial? Think....</p>
     </>
   );
 };

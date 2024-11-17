@@ -93,7 +93,7 @@ const Page = () => {
             urlId !== decodedToken.userId
           ) {
             router.push(
-              `/control/admin-role/view-feedback?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
+              `check1/test2/view-feedback?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
             );
           }
         }
