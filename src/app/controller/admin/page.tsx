@@ -1,5 +1,5 @@
-import Navbar from "@/admin-components/Navbar/Navbar"
-import Login from "@/admin-components/Login/Login"
+import Navbar from "@/components/NavbarAdmin/Navbar"
+import Login from "@/components/LoginAdmin/Login"
 
 const page = () => {
   return (
