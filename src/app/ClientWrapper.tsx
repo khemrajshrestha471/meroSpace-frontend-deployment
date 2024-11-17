@@ -19,7 +19,7 @@ export default function ClientWrapper({
   const pathname = usePathname();
 
   // Check if the current route is for admin
-  const isAdminPage = pathname.startsWith("/check1/test2");
+  const isAdminPage = pathname.startsWith("/controller/admin");
 
   return (
     <>
