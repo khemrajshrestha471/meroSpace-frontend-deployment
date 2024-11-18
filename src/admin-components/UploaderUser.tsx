@@ -81,13 +81,6 @@ const UploaderUser = () => {
     });
   };
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
-      draggable: true,
-      theme: "colored",
-    });
-  };
-
   const deleteThisUploader = async (_id: string) => {
     try {
       const response = await fetch(
@@ -104,7 +97,7 @@ const UploaderUser = () => {
         FailedDeleteUploader();
       }
     } catch (error) {
-      UnexpectedError();
+      console.error(error);
     }
   };
 

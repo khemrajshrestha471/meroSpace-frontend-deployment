@@ -87,13 +87,6 @@ import {
     });
   };
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
-      draggable: true,
-      theme: "colored",
-    });
-  };
-
   const deleteThisSeeker = async (_id: string) => {
     try {
       const response = await fetch(
@@ -110,7 +103,7 @@ import {
         FailedDeleteSeeker();
       }
     } catch (error) {
-      UnexpectedError();
+      console.error(error);
     }
   };
 
