@@ -168,13 +168,6 @@ const Page = () => {
     });
   };
 
-  const UnexpectedError = () => {
-    toast.error("An unexpected error occurred. Please try again.", {
-      draggable: true,
-      theme: "colored",
-    });
-  };
-
 
   const deleteThisTestimonial = async (_id: string) => {
     try {
