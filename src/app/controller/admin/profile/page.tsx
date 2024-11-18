@@ -29,7 +29,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -56,7 +55,7 @@ const Page = () => {
   const [isUserId, setIsUserId] = useState("");
   const [isUserIdJwt, setIsUserIdJwt] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
   // const [currentPath, setCurrentPath] = useState("");
@@ -120,13 +119,6 @@ const Page = () => {
           }
         }
 
-        // const urlPath = window.location.pathname;
-        // const roleFromPath = urlPath.split("-")[1].split("/")[0];
-        // if (roleFromPath !== decodedToken.role) {
-        //   router.push(
-        //     `/controller/admin/profile?username=${decodedToken.username}&role=${decodedToken.role}&Id=${decodedToken.userId}`
-        //   );
-        // }
         const fetchData = async () => {
           if (!isUserId) {
             return;
@@ -145,6 +137,7 @@ const Page = () => {
         fetchData();
       } catch (error) {
         console.error("Error decoding token:", error);
+        console.error("Token:", isDecodedToken)
         // In case of an invalid token, redirect to login
         router.push("/");
       }

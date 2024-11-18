@@ -37,7 +37,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 
 type UploaderData = {
   _id: string;
@@ -58,7 +57,7 @@ const Page = () => {
   const [isUserId, setIsUserId] = useState("");
   const [isUserIdJwt, setIsUserIdJwt] = useState("");
   const [data, setData] = useState<UploaderData[]>([]);
-  const [isdecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
+  const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
   const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
@@ -146,6 +145,7 @@ const Page = () => {
         fetchData();
       } catch (error) {
         console.error("Error decoding token:", error);
+        console.error("Token:", isDecodedToken);
         // In case of an invalid token, redirect to login
         router.push("/login-as-seeker");
       }
