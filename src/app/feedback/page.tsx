@@ -180,7 +180,7 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>
                     Title
-                    <span className="text-red-600">*(max 40 characters)</span>
+                    <span className="text-red-600"> *(max 40 characters)</span>
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="Feedback Title" {...field} />
@@ -197,7 +197,7 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>
                     Feedback
-                    <span className="text-red-600">*(max 300 characters)</span>
+                    <span className="text-red-600"> *(max 300 characters)</span>
                   </FormLabel>
                   <FormControl>
                     <Textarea
