@@ -136,9 +136,9 @@ const Page = () => {
     }
   }, [expiryTime, router]);
 
-  var satisfiedCount = 0;
-  var neutralCount = 0;
-  var dissatisfiedCount = 0;
+  let satisfiedCount = 0;
+  let neutralCount = 0;
+  let dissatisfiedCount = 0;
 
   data.forEach((item) => {
     if (item.sentiment === "Satisfied") {
