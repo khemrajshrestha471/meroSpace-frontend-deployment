@@ -60,20 +60,13 @@ export default function Testimonial() {
             {data.map((item) => (
               <CarouselItem key={item.id} className="md:basis-1/3 lg:basis-1/4">
                 <div>
-                  <Card className="flex flex-col items-center p-4 h-81 max-h-81 overflow-hidden relative">
-                    <CardHeader className="text-center p-0 flex-grow">
-                      <CardDescription
-                        className="text-black mb-2 text-center h-40 overflow-hidden text-ellipsis"
-                        style={{
-                          display: "-webkit-box",
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: "vertical",
-                        }}
-                      >
+                  <Card className="flex flex-col items-center p-4 overflow-hidden relative h-[53vh]">
+                    <CardHeader className="text-justify p-0 flex-grow">
+                      <CardDescription className="text-black text-justify overflow-hidden text-ellipsis">
                         {item.testimonial}
                       </CardDescription>
                     </CardHeader>
-                    <div className="flex justify-center mb-2">
+                    <div className="flex justify-center">
                       <img
                         src={item.imageUrl}
                         alt={item.name}
