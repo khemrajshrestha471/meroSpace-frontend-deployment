@@ -405,6 +405,10 @@ const Page = () => {
     }
   };
 
+  const handleCancel = () => {
+    window.location.reload();
+  };
+
   return (
     <>
       <div className="grid grid-cols-[8fr_1fr]">
@@ -495,14 +499,9 @@ const Page = () => {
                     </>
                   )}
 
-                  <Link
-                    href={`/dashboard-seeker/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
-                    className="text-white no-underline"
-                  >
-                    <Button type="button" variant="destructive">
+                    <Button type="button" variant="destructive" onClick={handleCancel}>
                       Cancel
                     </Button>
-                  </Link>
 
                   <ToastContainer />
                 </div>
@@ -529,10 +528,10 @@ const Page = () => {
             </DialogContent>
           </Dialog>
         )}
-        <div className="flex">
+        <div className="flex flex-col">
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" className="m-3">
+              <Button variant="outline" className="mx-1 my-3">
                 Change Password
               </Button>
             </AlertDialogTrigger>
@@ -547,7 +546,7 @@ const Page = () => {
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" className="m-3">
+              <Button variant="destructive" className="mx-1 my-3">
                 Delete
               </Button>
             </AlertDialogTrigger>

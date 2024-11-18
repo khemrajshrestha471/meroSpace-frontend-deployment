@@ -10,7 +10,7 @@ import { z } from "zod";
 import OldPasswordVerifyAdmin from "@/components/OldPasswordVerifyAdmin";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "@/admin-components/Navbar/Navbar"
+import Navbar from "@/admin-components/Navbar/Navbar";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -128,21 +128,21 @@ const Page = () => {
         //   );
         // }
         const fetchData = async () => {
-            if (!isUserId) {
-              return;
-            }
-            try {
-              const response = await fetch(
-                `https://mero-space-backend-deployment.vercel.app/get-admin-profile/${isUserIdJwt}`
-              );
-              const result = await response.json();
-              setData(result);
-            } catch (error) {
-              console.error("Error fetching profile:", error);
-            }
-          };
-  
-          fetchData();
+          if (!isUserId) {
+            return;
+          }
+          try {
+            const response = await fetch(
+              `https://mero-space-backend-deployment.vercel.app/get-admin-profile/${isUserIdJwt}`
+            );
+            const result = await response.json();
+            setData(result);
+          } catch (error) {
+            console.error("Error fetching profile:", error);
+          }
+        };
+
+        fetchData();
       } catch (error) {
         console.error("Error decoding token:", error);
         // In case of an invalid token, redirect to login
@@ -216,11 +216,14 @@ const Page = () => {
   const handleSendEmailOTP = async (data: z.infer<typeof FormSchema>) => {
     setLoading(true);
     try {
-      const response = await fetch("https://mero-space-backend-deployment.vercel.app/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: data.email }),
-      });
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/send-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email }),
+        }
+      );
 
       if (response.ok) {
         setEmail(data.email);
@@ -244,11 +247,14 @@ const Page = () => {
   const handleVerifyEmailOTP = async () => {
     // const handleVerifyEmailOTP = async (data: z.infer<typeof FormSchema>) => {
     try {
-      const response = await fetch("https://mero-space-backend-deployment.vercel.app/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-      });
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/verify-otp",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
 
       if (response.ok) {
         setIsOTPModalOpen(false);
@@ -298,8 +304,7 @@ const Page = () => {
         return;
       } else if (response.status === 201) {
         onSubmit(data);
-      }
-      else {
+      } else {
         onSubmit(data);
       }
     } catch (error) {
@@ -347,18 +352,21 @@ const Page = () => {
   };
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    fetch(`https://mero-space-backend-deployment.vercel.app/admin-profile-modified/${isUserIdJwt}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: data.username,
-        email: data.email,
-        p_number: data.p_number,
-      }),
-    })
+    fetch(
+      `https://mero-space-backend-deployment.vercel.app/admin-profile-modified/${isUserIdJwt}`,
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.username,
+          email: data.email,
+          p_number: data.p_number,
+        }),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           window.location.reload();
@@ -373,9 +381,13 @@ const Page = () => {
     logOut();
   }
 
+  const handleCancel = () => {
+    window.location.reload();
+  };
+
   return (
     <>
-    <Navbar />
+      <Navbar />
       <div className="grid grid-cols-[8fr_1fr]">
         <div className="flex justify-center items-center">
           {data.map((item) => (
@@ -464,14 +476,13 @@ const Page = () => {
                     </>
                   )}
 
-                  <Link
-                    href={`/controller/admin/profile?username=${isdecodedToken?.username}&role=${isdecodedToken?.role}&Id=${isdecodedToken?.userId}`}
-                    className="text-white no-underline"
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={handleCancel}
                   >
-                    <Button type="button" variant="destructive">
-                      Cancel
-                    </Button>
-                  </Link>
+                    Cancel
+                  </Button>
 
                   <ToastContainer />
                 </div>
