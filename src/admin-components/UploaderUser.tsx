@@ -146,7 +146,7 @@ const UploaderUser = () => {
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        Really want to delete this Uploader?
+                        Really want to delete <span className="text-red-500">{index.email}</span>?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undo and will permanently delete

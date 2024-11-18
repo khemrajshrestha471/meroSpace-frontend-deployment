@@ -152,7 +152,7 @@ import {
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        Really want to delete this Seeker?
+                        Really want to delete <span className="text-red-500">{index.email}</span>?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undo and will permanently delete
