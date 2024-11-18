@@ -79,7 +79,7 @@ export default function Testimonial() {
                         alt={item.name}
                         className="h-20 w-20 object-cover rounded-full border-4 border-blue-400"
                       />
-                      <div className="absolute top-0 right-0 bg-red-500 text-white font-semibold text-xs px-4 py-1 rounded-tr-lg rounded-bl-lg">
+                      <div className="absolute top-0 right-0 bg-blue-500 text-white font-semibold text-xs px-4 py-1 rounded-tr-lg rounded-bl-lg">
                         {item.role}
                       </div>
                     </div>
