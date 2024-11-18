@@ -417,7 +417,7 @@ const Page = () => {
               key={item._id}
               className="flex-shrink-0 w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5"
             >
-              <Card className="flex flex-col overflow-hidden relative h-[53vh]">
+              <Card className="flex flex-col items-center p-4 overflow-hidden relative h-[53vh]">
                 <CardHeader className="text-justify p-0 flex-grow">
                   <CardDescription className="text-black mb-2 text-justify overflow-hidden text-ellipsis">
                     {item.testimonial}
