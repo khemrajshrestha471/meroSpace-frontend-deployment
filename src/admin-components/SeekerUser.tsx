@@ -152,11 +152,11 @@ import {
                   <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>
-                        Really want to delete this Uploader?
+                        Really want to delete this Seeker?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undo and will permanently delete
-                        this uploader from the database.
+                        this seeker from the database.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
