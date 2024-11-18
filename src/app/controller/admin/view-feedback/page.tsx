@@ -44,7 +44,7 @@ const Page = () => {
     null
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 8;
   // const [currentPath, setCurrentPath] = useState("");
 
   useEffect(() => {
@@ -115,7 +115,7 @@ const Page = () => {
         fetchData();
       } catch (error) {
         console.error("Error decoding token:", error);
-        console.error("Token:", isDecodedToken)
+        console.error("Token:", isDecodedToken);
         // In case of an invalid token, redirect to login
         router.push("/");
       }
@@ -151,11 +151,11 @@ const Page = () => {
               key={item._id}
               className="flex-shrink-0 w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5"
             >
-              <Card className="flex flex-col overflow-hidden">
+              <Card className="flex flex-col overflow-hidden h-[35vh]">
                 <div className="flex-grow"></div>
                 <CardHeader className="flex flex-col p-2">
                   <CardTitle
-                    className={`font-semibold pl-1 ${
+                    className={`font-semibold text-center pl-1 ${
                       item.sentiment === "Satisfied"
                         ? "text-green-500"
                         : item.sentiment === "Neutral"
@@ -167,13 +167,13 @@ const Page = () => {
                   >
                     {item.sentiment}
                   </CardTitle>
-                  <div className="flex justify-between items-center pl-1">
-                    <CardDescription className="font-bold">
+                  <div className="flex justify-center items-center pl-1">
+                    <CardDescription className="font-bold text-center">
                       {item.title}
                     </CardDescription>
                   </div>
-                  <CardDescription className="text-gray-600 pl-1">
-                    Feedback: {item.feedback}
+                  <CardDescription className="text-gray-600 pl-1 text-justify">
+                    {item.feedback}
                   </CardDescription>
                 </CardHeader>
               </Card>

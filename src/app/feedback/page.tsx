@@ -27,10 +27,24 @@ import {
 import { Input } from "@/components/ui/input";
 
 const Page = () => {
+  const TITLE_CHAR_LIMIT = 40;
+  const FEEDBACK_CHAR_LIMIT = 300;
   const FormSchema = z.object({
     sentiment: z.string().min(1, "Sentiment is required"),
-    title: z.string().min(1, "Title is required"),
-    feedback: z.string().min(1, "Feedback is required"),
+    title: z
+      .string()
+      .min(1, "Title is required")
+      .max(
+        TITLE_CHAR_LIMIT,
+        `Title must not exceed ${TITLE_CHAR_LIMIT} characters`
+      ),
+    feedback: z
+      .string()
+      .min(1, "Feedback is required")
+      .max(
+        FEEDBACK_CHAR_LIMIT,
+        `Feedback must not exceed ${FEEDBACK_CHAR_LIMIT} characters`
+      ),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -60,17 +74,20 @@ const Page = () => {
     const feedback = data.feedback;
 
     try {
-      const response = await fetch("https://mero-space-backend-deployment.vercel.app/feedback", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          sentiment,
-          title,
-          feedback,
-        }),
-      });
+      const response = await fetch(
+        "https://mero-space-backend-deployment.vercel.app/feedback",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sentiment,
+            title,
+            feedback,
+          }),
+        }
+      );
 
       await response.json();
       SendSuccess();
@@ -161,7 +178,10 @@ const Page = () => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>
+                    Title
+                    <span className="text-red-600">*(max 40 characters)</span>
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Feedback Title" {...field} />
                   </FormControl>
@@ -175,7 +195,10 @@ const Page = () => {
               name="feedback"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Feedback</FormLabel>
+                  <FormLabel>
+                    Feedback
+                    <span className="text-red-600">*(max 300 characters)</span>
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Your Feedback"
