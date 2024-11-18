@@ -216,6 +216,10 @@ const Page = () => {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const register_date_time = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Kathmandu",
+      hour12: true,
+    });
     const { username, email, p_number, password } = data;
 
     try {
@@ -231,6 +235,7 @@ const Page = () => {
             email,
             p_number,
             password,
+            register_date_time,
           }),
         }
       );

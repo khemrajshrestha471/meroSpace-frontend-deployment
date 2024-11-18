@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { decodeToken } from "@/components/utils/decodeToken.js";
-import Navbar from "@/admin-components/Navbar/Navbar"
+import Navbar from "@/admin-components/Navbar/Navbar";
+import UploaderUser from "@/admin-components/UploaderUser";
+import SeekerUser from "@/admin-components/SeekerUser";
+import { Button } from "@/components/ui/button";
+import UploaderSeeker from "./UploaderSeeker";
 
 interface DecodedToken {
   username: string;
@@ -11,12 +15,25 @@ interface DecodedToken {
   userId: string;
 }
 
+type UploadedAllUser = {
+  _id: string;
+  username: string;
+  email: string;
+  p_number: string;
+  password: string;
+  register_date_time: string;
+};
+
 const Page = () => {
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   const [isDecodedToken, setIsDecodedToken] = useState<DecodedToken | null>(
     null
   );
+  const [showUploader, setShowUploader] = useState(true);
+  const [showSeeker, setShowSeeker] = useState(false);
+  const [dataSeeker, setDataSeeker] = useState<UploadedAllUser[]>([]);
+  const [dataUploader, setDataUploader] = useState<UploadedAllUser[]>([]);
 
   useEffect(() => {
     const isFirstRender = localStorage.getItem("firstRender");
@@ -91,11 +108,83 @@ const Page = () => {
     }
   }, [router, isUserId]);
 
+  useEffect(() => {
+    const fetchDataUploader = async () => {
+      try {
+        const response = await fetch("https://mero-space-backend-deployment.vercel.app/get-all-uploader");
+        const result = await response.json();
+        setDataUploader(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchDataUploader();
+
+    const fetchDataSeeker = async () => {
+      try {
+        const response = await fetch("https://mero-space-backend-deployment.vercel.app/get-all-seeker");
+        const result = await response.json();
+        setDataSeeker(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchDataSeeker();
+  }, []);
+
+  const showSeekerData = () => {
+    setShowUploader(false);
+    setShowSeeker(true);
+  };
+
+  const showUploaderData = () => {
+    setShowUploader(true);
+    setShowSeeker(false);
+  };
+
   return (
     <>
-    <Navbar />
-    <h1>Admin Dashboard</h1>
-    <p>Make proper dashboard so that admin can see total uploader and seeker till the date with something graph</p>
+      <Navbar />
+      {showUploader && (
+        <>
+          <div className="flex justify-end">
+            <Button
+              onClick={showSeekerData}
+              variant="outline"
+              className="mx-3 my-2"
+            >
+              Show Seeker
+            </Button>
+          </div>
+
+          <UploaderUser />
+        </>
+      )}
+      {showSeeker && (
+        <>
+          <div className="flex justify-end">
+            <Button
+              onClick={showUploaderData}
+              variant="outline"
+              className="mx-3 my-2"
+            >
+              Show Uploader
+            </Button>
+          </div>
+          <SeekerUser />
+        </>
+      )}
+      <div>
+        <p className="text-center text-blue-500 text-3xl font-semibold">
+          Uploader Vs Seeker
+        </p>
+        <UploaderSeeker
+          uploaderCount={dataUploader.length}
+          seekerCount={dataSeeker.length}
+        />
+      </div>
     </>
   );
 };

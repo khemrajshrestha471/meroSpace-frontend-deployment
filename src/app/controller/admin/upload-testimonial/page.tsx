@@ -448,7 +448,7 @@ const Page = () => {
                         </AlertDialogTitle>
                         <AlertDialogDescription>
                           This action cannot be undo and will permanently delete
-                          this testimonial from our database.
+                          this testimonial from the database.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
