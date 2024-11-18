@@ -192,7 +192,7 @@ const Page = () => {
         FailedDeleteTestimonial();
       }
     } catch (error) {
-      UnexpectedError();
+      console.error(error);
     }
   };
 
@@ -272,6 +272,7 @@ const Page = () => {
               </Card>
             </li>
           ))}
+          <ToastContainer />
         </ul>
         {data.length > 0 && (
           <div className="flex justify-center mt-4">
