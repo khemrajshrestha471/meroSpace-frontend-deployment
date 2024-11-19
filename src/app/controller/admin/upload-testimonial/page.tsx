@@ -65,7 +65,8 @@ type UploadedTestimonial = {
 
 const Page = () => {
   // const pathname = usePathname();
-  const TESTIMONIAL_CHAR_LIMIT = 300;
+  const TESTIMONIAL_CHAR_MINIMUM = 250;
+  const TESTIMONIAL_CHAR_MAXIMUM = 300;
   const [expiryTime, setExpiryTime] = useState(0);
   const [isUserId, setIsUserId] = useState("");
   // const [isUserIdJwt, setIsUserIdJwt] = useState("");
@@ -84,10 +85,13 @@ const Page = () => {
     role: z.string().min(1, "Role is required"),
     testimonial: z
       .string()
-      .min(1, "Title is required")
+      .min(
+        TESTIMONIAL_CHAR_MINIMUM,
+        `Testimonial should be at least ${TESTIMONIAL_CHAR_MINIMUM} characters`
+      )
       .max(
-        TESTIMONIAL_CHAR_LIMIT,
-        `Title must not exceed ${TESTIMONIAL_CHAR_LIMIT} characters`
+        TESTIMONIAL_CHAR_MAXIMUM,
+        `Testimonial must not exceed ${TESTIMONIAL_CHAR_MAXIMUM} characters`
       ),
     location: z.string().min(1, "Location is required"),
     image: z.instanceof(File, { message: "Testimonial Image is required" }),
@@ -389,7 +393,7 @@ const Page = () => {
                 <FormItem>
                   <FormLabel>
                     Testimonial
-                    <span className="text-red-600"> *(max 300 characters)</span>
+                    <span className="text-red-600"> *(250 - 300 characters)</span>
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="Enter Testimonial Here" {...field} />
