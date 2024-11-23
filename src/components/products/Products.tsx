@@ -37,7 +37,7 @@ type UploaderData = {
 };
 
 export default function Products() {
-  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
   const [data, setData] = useState<UploaderData[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();

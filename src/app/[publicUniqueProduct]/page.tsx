@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Autoplay from "embla-carousel-autoplay";
 
 import { CardContent } from "@/components/ui/card";
+import Products from "@/components/products/Products";
 import {
   Carousel,
   CarouselContent,
@@ -193,6 +194,10 @@ const Page = () => {
           </div>
         );
       })}
+            <p className="text-center text-blue-500 text-3xl font-semibold">
+        Recommended
+      </p>
+      <Products />
     </div>
   );
 };

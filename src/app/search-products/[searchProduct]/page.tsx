@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Products from "@/components/products/Products";
 import {
   Pagination,
   PaginationContent,
@@ -262,6 +263,10 @@ const SearchProductPage = () => {
           </>
         )}
       </div>
+      <p className="text-center text-blue-500 text-3xl font-semibold">
+        Recommended
+      </p>
+      <Products />
     </div>
   );
 };
