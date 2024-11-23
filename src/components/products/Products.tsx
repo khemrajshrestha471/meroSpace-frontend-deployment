@@ -84,7 +84,8 @@ export default function Products() {
       try {
         const response = await fetch("https://mero-space-backend-deployment.vercel.app/get-all-data");
         const result = await response.json();
-        setData(result);
+        const randomItems = result.sort(() => 0.5 - Math.random()).slice(0, 10);
+        setData(randomItems);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
