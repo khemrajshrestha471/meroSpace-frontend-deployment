@@ -552,7 +552,7 @@ const Page = () => {
               key={item.unique_id}
               className="flex-shrink-0 w-full sm:w-1/2 md:w-2/5 lg:w-1/4 xl:w-1/5"
             >
-              <Card className="flex flex-col min-h-[350px] overflow-hidden">
+              <Card className="flex flex-col min-h-[350px] overflow-hidden relative">
                 <div className="flex-grow">
                   <img
                     src={item.imageUrl}
